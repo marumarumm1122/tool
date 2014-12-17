@@ -7,6 +7,7 @@ namespace{
     char ch_buff[64];
 
 }
+const char *CTool::CH_EXPORT_HEADER_FILE_NAME = "S_LINK_DATA_STRING_HEADER.h";
 void CTool::Main(){
     if(!ArgumentCheck()){
         return;

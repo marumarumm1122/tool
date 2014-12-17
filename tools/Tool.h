@@ -8,6 +8,7 @@ namespace tool{
 		const int n_argc;
 		char **ch_argv;
 	public:
+		static const char *CH_EXPORT_HEADER_FILE_NAME;
 		enum eFORMAT{
     		eFORMAT_START = 0,
 
