@@ -21,17 +21,17 @@ namespace tool{
             this->e_format = e_format;
         }
         
-		//ファイルパスをセットする
+		//ファイルパスをセットする.
 		void SetFilePath(const char *ch_filePath){
             this->ch_filePath = ch_filePath;
         }
 
-		//フォーマットをセット(テキスト、バイナリ)
+		//フォーマットをセット(テキスト、バイナリ).
 		void SetFormat(CTool::eFORMAT eformat){
             this->e_format = eformat;
         }
 	
-		//ファイルサイズをカウントする
+		//ファイルサイズをカウントする.
 		int GetSize() const{
             if(!b_isLoaded){
                 return 0;
@@ -39,7 +39,7 @@ namespace tool{
             return 0;
         }
 
-		//ファイル行数をカウントする
+		//ファイル行数をカウントする.
 		int GetCount() const{
             if(!b_isLoaded){
                 return 0;
@@ -47,12 +47,12 @@ namespace tool{
             return 0;
         }
 
-		//バッファ用ポインタをセットする
+		//バッファ用ポインタをセットする.
 		void SetBuffer(void *pBuffer){
             this->pBuffer = pBuffer;
         }
 
-		//指定されたパスのファイルの中身を指定されたバッファ用ポインタにセットする
+		//指定されたパスのファイルの中身を指定されたバッファ用ポインタにセットする.
 		void Read();
 
 

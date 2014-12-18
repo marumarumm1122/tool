@@ -1,26 +1,40 @@
 #if !defined(__tool__FileWriter__)
 #define __tool__FileWriter__
 
-using namespace tool;
+#include "Tool.h"
+
 namespace tool{
 	class CFileWriter
 	{
 	private:
-		const char *filepath;
+		const char *ch_filepath;
 		CTool::eFORMAT eformat;
 		void *pBuffer;
 	public:
+        
+        CFileWriter(){};
+        
+        CFileWriter(const char *filePath,CTool::eFORMAT eformat):
+        ch_filepath(filePath),
+        eformat(eformat){
+            
+        }
+		//ファイルパスをセットする.
+		void SetFilePath(const char *filePath){
+            this->ch_filepath = filePath;
+        }
 
-		//ファイルパスをセットする
-		void SetFilePath(const char *filePath);
-
-		//フォーマットをセット(テキスト、バイナリ)
-		void SetFormat(CTool::eFORMAT eformat);
+		//フォーマットをセット(テキスト、バイナリ).
+		void SetFormat(CTool::eFORMAT eformat){
+            this->eformat = eformat;
+        }
 	
-		//バッファ用ポインタをセットする
-		void SetBuffer(void *pBuffer);
+		//バッファ用ポインタをセットする.
+		void SetBuffer(void *pBuffer){
+            this->pBuffer = pBuffer;
+        }
 
-		//指定されたポインタの中身を指定されたパスに書き込む
+		//指定されたポインタの中身を指定されたパスに書き込む.
 		void Write();
 
 
