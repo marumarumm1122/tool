@@ -1,17 +1,23 @@
 #include "Tool.h"
 #include <stdio.h>
 #include <string.h>
+#include "FileReader.h"
 
 using namespace tool;
 namespace{
     char ch_buff[64];
-
+    void *p_vbuffer;
+    
 }
 const char *CTool::CH_EXPORT_HEADER_FILE_NAME = "S_LINK_DATA_STRING_HEADER.h";
 void CTool::Main(){
     if(!ArgumentCheck()){
         return;
     }
+    
+    CFileReader *reader_instance = new CFileReader(ch_argv[2],CTool::eFORMAT_TEXT);
+    reader_instance->SetBuffer(p_vbuffer);
+    reader_instance->Read();
     
     
 }
@@ -61,7 +67,7 @@ bool CTool::ArgumentCheck(){
 		}
 	}
     return true;
-
+    
 }
 void CTool::Error(const char *ch_message){
 	printf("%s\n",ch_message);
