@@ -30,6 +30,10 @@ void CTool::Main(){
     CConverter *converter_instance = new CConverter(ch_argv[8]);
     converter_instance->SetBufferFrom(p_vbuffer);
     p_convertBuffer = converter_instance->ToBinary();
+    if(!p_convertBuffer){
+        printf("データ変換エラー\n");
+        return;
+    }
     
     CHeaderGenerator *generator_instance = new CHeaderGenerator();
     generator_instance->SetBufferFrom(p_vbuffer);
