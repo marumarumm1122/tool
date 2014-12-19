@@ -42,41 +42,49 @@ void CTool::Main(){
     writer_instance->SetFormat(CTool::eFORMAT_TEXT);
     writer_instance->SetFilePath(CH_EXPORT_HEADER_FILE_NAME);
     writer_instance->Write();
-    
+
+    // 後片付け.
+    delete reader_instance;
+    delete converter_instance;
+    delete generator_instance;
+    delete writer_instance;
+    free(p_vbuffer);
+    free(p_convertBuffer);
+    free(p_headerBuffer);
 }
 bool CTool::ArgumentCheck(){
 	if(n_argc<9){
 		Error("argument Error");
 		return false;
 	}
-	for (int nCnt = 0;nCnt < n_argc;nCnt++){
-		switch(nCnt){
-			case 0:
-				break;
-			case 1:{
-				if(strncmp(ch_argv[nCnt],"-f",2)!=0){
-					sprintf(ch_buff,"Unknown option: %s",ch_argv[nCnt]);
-					Error(ch_buff);
+    for (int nCnt = 0;nCnt < n_argc;nCnt++){
+        switch(nCnt){
+            case 0:
+                break;
+            case 1:{
+                if(strncmp(ch_argv[nCnt],"-f",2)!=0){
+                    sprintf(ch_buff,"Unknown option: %s",ch_argv[nCnt]);
+                    Error(ch_buff);
                     return false;
-				}
-				break;
-			}
-			case 3:{
+                }
+                break;
+            }
+            case 3:{
                 if(strncmp(ch_argv[nCnt],"-o",2)!=0){
                     sprintf(ch_buff,"Unknown option: %s",ch_argv[nCnt]);
                     Error(ch_buff);
                     return false;
                 }
                 break;
-			}
-			case 5:{
+            }
+            case 5:{
                 if(strncmp(ch_argv[nCnt],"-e",2)!=0){
                     sprintf(ch_buff,"Unknown option: %s",ch_argv[nCnt]);
                     Error(ch_buff);
                     return false;
                 }
                 break;
-			}
+            }
             case 6:{
                 if(strncmp(ch_argv[nCnt],"be",2)!=0 && strncmp(ch_argv[nCnt],"le",2)!=0){
                     sprintf(ch_buff,"Unknown option: %s",ch_argv[nCnt]);
@@ -93,11 +101,11 @@ bool CTool::ArgumentCheck(){
                 }
                 break;
             }
-			default:
-				
-				break;
-		}
-	}
+            default:
+                
+                break;
+        }
+    }
     return true;
     
 }
