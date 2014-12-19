@@ -16,11 +16,13 @@ namespace tool{
         CConverter(unsigned short ush_version):
         ush_version(ush_version)
         ,pBuffer(NULL)
-        ,pConvertBuffer(NULL){
+        ,pConvertBuffer(NULL)
+        ,npBufferSize(0){
         }
         CConverter(const char *ch_version):
         pBuffer(NULL)
-        ,pConvertBuffer(NULL){
+        ,pConvertBuffer(NULL)
+        ,npBufferSize(0){
             this->ush_version = atoi(ch_version);
         }
         
@@ -37,6 +39,8 @@ namespace tool{
 		//コンバートしてバイナリ結果を取得する.
 		void* ToBinary();
     private:
+        // 受け取ったバッファのサイズ
+        int npBufferSize;
         
         // 行数カウント
         int LineCount();

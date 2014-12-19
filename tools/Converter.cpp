@@ -9,9 +9,10 @@ namespace  {
 }
 //コンバートしてバイナリ結果を変換先バッファにセットする.
 void* CConverter::ToBinary(){
-
-    ch_headerBuff = reinterpret_cast<char*>( malloc(sizeof(short)*2 + LineCount()*sizeof(int)));
-    ch_bodyBuff = reinterpret_cast<char*>( malloc(sizeof(pBuffer)));
+    int nLineCount = LineCount();
+    int nHeaderBuffSize = sizeof(short)*2 + nLineCount*sizeof(int);
+    ch_headerBuff = reinterpret_cast<char*>( malloc(nHeaderBuffSize));
+    ch_bodyBuff = reinterpret_cast<char*>( malloc(npBufferSize));
     
     char *ch_pBuffer = reinterpret_cast<char*>(pBuffer);
     int nCnt = 0;
@@ -39,14 +40,16 @@ void* CConverter::ToBinary(){
         ch_bodyBuff++;
         nCnt+=sizeof(ch_pBuffer[0]);
     }while(*ch_pBuffer++);
-    
+
     if(pConvertBuffer!=NULL){
         free(pConvertBuffer);
     }
-    pConvertBuffer = malloc(sizeof(ch_headerBuff) + sizeof(pBuffer));
-    memcpy(pConvertBuffer,ch_headerBuff,sizeof(short)*2 + LineCount()*sizeof(int));
     
-    memcpy(reinterpret_cast<char*>( pConvertBuffer)+sizeof(pBuffer),ch_bodyBuff,sizeof(pBuffer));
+    pConvertBuffer = malloc(nHeaderBuffSize + npBufferSize);
+
+    memcpy(pConvertBuffer,ch_headerBuff,nHeaderBuffSize);
+
+    memcpy(reinterpret_cast<char*>( pConvertBuffer)+npBufferSize,ch_bodyBuff,npBufferSize);
     
     free(ch_headerBuff);
     free(ch_bodyBuff);
@@ -56,14 +59,14 @@ void* CConverter::ToBinary(){
 
 int CConverter::LineCount(){
     int n_line = 0;
+    npBufferSize = 0;
     char *ch_pBuffer = reinterpret_cast<char*>(pBuffer);
     do{
-        
+        npBufferSize++;
         if(ch_pBuffer[0]!='\n' && ch_pBuffer[0]!='\0'){
             n_line++;
             continue;
         }
-        
     }while(*ch_pBuffer++);
     
     return n_line;
