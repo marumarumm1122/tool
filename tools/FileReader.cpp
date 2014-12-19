@@ -3,36 +3,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 //指定されたパスのファイルの中身を指定されたバッファ用ポインタにセットする.
-void CFileReader::Read(){
-    if(e_format==CTool::eFORMAT_TEXT){
-        TextRead();
-        return;
-    }
-    
-    BinaryRead();
-    
-}
-void CFileReader::BinaryRead(){
+void* CFileReader::Read(){
     FILE *fp;
     fpos_t n_fsize;
+    printf("file open\n");
     fp = fopen(ch_filePath,"rb");
     if(fp==NULL){
-        return ;
+        printf("file error\n");
+        return NULL;
     }
     
-    fseek(fp,0,SEEK_END);
+    printf("file seek\n");
+    fpos_t fsizeb = fseek(fp,0,SEEK_END);
     fgetpos(fp, &n_fsize);
-    fclose(fp);
+    fseek(fp,fsizeb,SEEK_SET);
     
-    fp = fopen(ch_filePath,"rb");
-    if(fp==NULL){
-        return ;
+    if(pBuffer!=NULL){
+        free(pBuffer);
     }
     
     pBuffer = malloc(n_fsize);
+    printf("size = %lld\n",n_fsize);
+    printf("file read\n");
     fread(pBuffer,n_fsize,1,fp);
+    
+    printf("file close\n");
     fclose(fp);
-}
-void CFileReader::TextRead(){
+    
+    return pBuffer;
     
 }

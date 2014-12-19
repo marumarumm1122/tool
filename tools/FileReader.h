@@ -10,13 +10,18 @@ namespace tool{
 		void *pBuffer;
         const char *ch_filePath;
         bool b_isLoaded;
+        int n_size;
 	public:
 		
         CFileReader():
-        b_isLoaded(false){}
+        b_isLoaded(false)
+        ,pBuffer(NULL)
+        ,n_size(0){}
         
         CFileReader(const char *ch_filePath,CTool::eFORMAT e_format):
-        b_isLoaded(false){
+        b_isLoaded(false)
+        ,pBuffer(NULL)
+        ,n_size(0){
             this->ch_filePath = ch_filePath;
             this->e_format = e_format;
         }
@@ -47,17 +52,9 @@ namespace tool{
             return 0;
         }
 
-		//バッファ用ポインタをセットする.
-		void SetBuffer(void *pBuffer){
-            this->pBuffer = pBuffer;
-        }
+		//指定されたパスのファイルの中身を指定されたバッファ用ポインタで取得する.
+		void* Read();
 
-		//指定されたパスのファイルの中身を指定されたバッファ用ポインタにセットする.
-		void Read();
-
-    private:
-        void BinaryRead();
-        void TextRead();
 	};
 }
 #endif // !defined(__tool__FileReader__)
