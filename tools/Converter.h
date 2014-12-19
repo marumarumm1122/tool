@@ -14,9 +14,13 @@ namespace tool{
         CConverter(){}
         
         CConverter(unsigned short ush_version):
-        ush_version(ush_version){
+        ush_version(ush_version)
+        ,pBuffer(NULL)
+        ,pConvertBuffer(NULL){
         }
-        CConverter(const char *ch_version){
+        CConverter(const char *ch_version):
+        pBuffer(NULL)
+        ,pConvertBuffer(NULL){
             this->ush_version = atoi(ch_version);
         }
         
@@ -30,17 +34,12 @@ namespace tool{
             this->pBuffer = pBuffer;
         }
 
-		//変換先格納バッファをセットする.
-		void SetBufferTo(void *pBuffer){
-            this->pConvertBuffer = pBuffer;
-        }
-
-		//コンバートしてバイナリ結果を変換先バッファにセットする.
-		void ToBinary();
-
-		//コンバートした結果を文字列として変換先バッファにセットする.
-		void ToString();
-
+		//コンバートしてバイナリ結果を取得する.
+		void* ToBinary();
+    private:
+        
+        // 行数カウント
+        int LineCount();
 	};
 }
 #endif // !defined(__tool__Converter__)

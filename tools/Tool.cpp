@@ -9,9 +9,9 @@
 using namespace tool;
 namespace{
     char ch_buff[64];
-    void *p_vbuffer;
-    void *p_convertBuffer;
-    void *p_headerBuffer;
+    void *p_vbuffer = NULL;
+    void *p_convertBuffer = NULL;
+    void *p_headerBuffer = NULL;
     
 }
 const char *CTool::CH_EXPORT_HEADER_FILE_NAME = "S_LINK_DATA_STRING_HEADER.h";
@@ -21,17 +21,19 @@ void CTool::Main(){
     }
     
     CFileReader *reader_instance = new CFileReader(ch_argv[2],CTool::eFORMAT_TEXT);
-    reader_instance->SetBuffer(p_vbuffer);
-    reader_instance->Read();
+    p_vbuffer = reader_instance->Read();
+    if(!p_vbuffer){
+        printf("ファイル読み込みエラー\n");
+        return;
+    }
     
     CConverter *converter_instance = new CConverter(ch_argv[8]);
     converter_instance->SetBufferFrom(p_vbuffer);
-    converter_instance->SetBufferTo(p_convertBuffer);
-    converter_instance->ToBinary();
+    p_convertBuffer = converter_instance->ToBinary();
     
     CHeaderGenerator *generator_instance = new CHeaderGenerator();
-    converter_instance->SetBufferFrom(p_vbuffer);
-    converter_instance->SetBufferTo(p_headerBuffer);
+    generator_instance->SetBufferFrom(p_vbuffer);
+    generator_instance->SetBufferTo(p_headerBuffer);
     generator_instance->Generate();
     
     CFileWriter *writer_instance = new CFileWriter(ch_argv[4],CTool::eFORMAT_BINARY);
