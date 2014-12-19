@@ -49,10 +49,10 @@ void* CConverter::ToBinary(){
 
     memcpy(pConvertBuffer,ch_headerBuff,nHeaderBuffSize);
 
-    memcpy(reinterpret_cast<char*>( pConvertBuffer)+npBufferSize,ch_bodyBuff,npBufferSize);
+    memmove(reinterpret_cast<char*>( pConvertBuffer)+nHeaderBuffSize,ch_bodyBuff,npBufferSize);
     
-    free(ch_headerBuff);
-    free(ch_bodyBuff);
+    //free(ch_headerBuff);
+    //free(ch_bodyBuff);
     
     return pConvertBuffer;
 }
