@@ -55,7 +55,9 @@ namespace tool{
 		//指定されたパスのファイルの中身を指定されたバッファ用ポインタにセットする.
 		void Read();
 
-
+    private:
+        void BinaryRead();
+        void TextRead();
 	};
 }
 #endif // !defined(__tool__FileReader__)
