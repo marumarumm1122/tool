@@ -14,8 +14,6 @@ namespace tool{
 			{
 		}
 		int Invoke();
-	private:
-		void Error(const char *ch_message);
 
 	};
 }
