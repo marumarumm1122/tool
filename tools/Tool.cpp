@@ -1,118 +1,25 @@
 #include "Tool.h"
 #include <stdio.h>
 #include <string.h>
-#include "FileReader.h"
-#include "FileWriter.h"
-#include "Converter.h"
-#include "HeaderGenerator.h"
-
+#include "ArgumentParser.h"
+#include "ToolInvoker.h"
 using namespace tool;
-namespace{
-    char ch_buff[64];
-    void *p_vbuffer = NULL;
-    void *p_convertBuffer = NULL;
-    void *p_headerBuffer = NULL;
-    
-}
-const char *CTool::CH_EXPORT_HEADER_FILE_NAME = "S_LINK_DATA_STRING_HEADER.h";
 void CTool::Main(){
-    if(!ArgumentCheck()){
+    CArgumentParser *parser = new CArgumentParser(n_argc,ch_argv);
+    if(!parser->Parse()){
+        delete parser;
+        printf("parsing Error.\n");
         return;
     }
-    
-    CFileReader *reader_instance = new CFileReader(ch_argv[2],CTool::eFORMAT_TEXT);
-    p_vbuffer = reader_instance->Read();
-    if(!p_vbuffer){
-        printf("ファイル読み込みエラー\n");
-        return;
-    }
-    
-    CConverter *converter_instance = new CConverter(ch_argv[8]);
-    converter_instance->SetBufferFrom(p_vbuffer);
-    p_convertBuffer = converter_instance->ToBinary();
-    if(!p_convertBuffer){
-        printf("データ変換エラー\n");
-        return;
-    }
-    
-    CHeaderGenerator *generator_instance = new CHeaderGenerator();
-    generator_instance->SetBufferFrom(p_vbuffer);
-    generator_instance->SetBufferTo(p_headerBuffer);
-    generator_instance->Generate();
-    
-    CFileWriter *writer_instance = new CFileWriter(ch_argv[4],CTool::eFORMAT_BINARY);
-    writer_instance->SetBuffer(p_convertBuffer);
-    writer_instance->Write();
-    
-    writer_instance->SetBuffer(p_headerBuffer);
-    writer_instance->SetFormat(CTool::eFORMAT_TEXT);
-    writer_instance->SetFilePath(CH_EXPORT_HEADER_FILE_NAME);
-    writer_instance->Write();
 
-    // 後片付け.
-    delete reader_instance;
-    delete converter_instance;
-    delete generator_instance;
-    delete writer_instance;
-    free(p_vbuffer);
-    free(p_convertBuffer);
-    free(p_headerBuffer);
-}
-bool CTool::ArgumentCheck(){
-	if(n_argc<9){
-		Error("argument Error");
-		return false;
-	}
-    for (int nCnt = 0;nCnt < n_argc;nCnt++){
-        switch(nCnt){
-            case 0:
-                break;
-            case 1:{
-                if(strncmp(ch_argv[nCnt],"-f",2)!=0){
-                    sprintf(ch_buff,"Unknown option: %s",ch_argv[nCnt]);
-                    Error(ch_buff);
-                    return false;
-                }
-                break;
-            }
-            case 3:{
-                if(strncmp(ch_argv[nCnt],"-o",2)!=0){
-                    sprintf(ch_buff,"Unknown option: %s",ch_argv[nCnt]);
-                    Error(ch_buff);
-                    return false;
-                }
-                break;
-            }
-            case 5:{
-                if(strncmp(ch_argv[nCnt],"-e",2)!=0){
-                    sprintf(ch_buff,"Unknown option: %s",ch_argv[nCnt]);
-                    Error(ch_buff);
-                    return false;
-                }
-                break;
-            }
-            case 6:{
-                if(strncmp(ch_argv[nCnt],"be",2)!=0 && strncmp(ch_argv[nCnt],"le",2)!=0){
-                    sprintf(ch_buff,"Unknown option: %s",ch_argv[nCnt]);
-                    Error(ch_buff);
-                    return false;
-                }
-                break;
-            }
-            case 7:{
-                if(strncmp(ch_argv[nCnt],"-v",2)!=0){
-                    sprintf(ch_buff,"Unknown option: %s",ch_argv[nCnt]);
-                    Error(ch_buff);
-                    return false;
-                }
-                break;
-            }
-            default:
-                
-                break;
-        }
+    CToolInvoker *invoker = new CToolInvoker(parser);
+    int ret = invoker->Invoke();
+    if(ret>0){
+        printf("invoke Error.\n");
     }
-    return true;
+    delete parser;
+    delete invoker;
+    
     
 }
 void CTool::Error(const char *ch_message){
