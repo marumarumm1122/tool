@@ -22,12 +22,3 @@ void CTool::Main(){
     
     
 }
-void CTool::Error(const char *ch_message){
-	printf("%s\n",ch_message);
-	printf("usage: test -f <file> -o <file> -e be/le -v <バージョン> \n\n");
-	printf("-f 入力ファイル名\n");
-	printf("-o 出力ファイル名\n");
-	printf("-e be ビッグエンディアン指定（デフォルト）");
-	printf(" / le リトルエンディアン指定\n");
-    printf("-v バージョン\n");
-}

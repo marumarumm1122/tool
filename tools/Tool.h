@@ -17,8 +17,6 @@ namespace tool{
 			{
 			ch_argv = argv;
 		}
-	private:
-		void Error(const char *ch_message);
 
 	};
 }
