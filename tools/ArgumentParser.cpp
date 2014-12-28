@@ -49,12 +49,18 @@ bool CArgumentParser::ParseArguments(){
     			Error("argument index out ob bounds '-e'.");
     			return false;
     		}
-    		if(strncmp(ch_argv[nCnt+1],"be",2)!=0 && strncmp(ch_argv[nCnt+1],"le",2)!=0){
+    		if(strncmp(ch_argv[nCnt+1],"be",2)==0){
+                ch_checkArgs[eARGUMENT_ENDIAN_COMMAND] = ch_argv[nCnt];
+                ch_checkArgs[eARGUMENT_ENDIAN_DATA] = ch_argv[++nCnt];
+                byteOrder = eBYTE_ORDER_BIGENDIAN;
+            }else if(strncmp(ch_argv[nCnt+1],"le",2)==0){
+                ch_checkArgs[eARGUMENT_ENDIAN_COMMAND] = ch_argv[nCnt];
+                ch_checkArgs[eARGUMENT_ENDIAN_DATA] = ch_argv[++nCnt];
+                byteOrder = eBYTE_ORDER_LITTLEENDIAN;
+            }else{
     			Error("argument endian is not word be/le.");
     			return false;
     		}
-    	    ch_checkArgs[eARGUMENT_ENDIAN_COMMAND] = ch_argv[nCnt];
-    	    ch_checkArgs[eARGUMENT_ENDIAN_DATA] = ch_argv[++nCnt];
     	    continue;
         }
     	if(strncmp(ch_argv[nCnt],"-v",2)==0){

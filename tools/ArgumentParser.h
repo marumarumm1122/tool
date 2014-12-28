@@ -7,6 +7,7 @@ namespace tool{
 	private:
 		const int n_argc;
 		char **ch_argv;
+
 	public:
 		enum eFORMAT{
     		eFORMAT_START = 0,
@@ -17,6 +18,16 @@ namespace tool{
 		    eFORMAT_NUM,
 		    eFORMAT_MAX = eFORMAT_NUM - 1,
 		};
+		enum eBYTE_ORDER{
+    		eBYTE_ORDER_START = 0,
+
+		    eBYTE_ORDER_BIGENDIAN = eBYTE_ORDER_START,
+		    eBYTE_ORDER_LITTLEENDIAN ,
+
+		    eBYTE_ORDER_NUM,
+		    eBYTE_ORDER_MAX = eBYTE_ORDER_NUM - 1,
+		};
+		
 		enum eARGUMENT{
 			eARGUMENT_START = 0,
 
@@ -36,7 +47,7 @@ namespace tool{
 	private:
 		// 引数チェック用
 		const char *ch_checkArgs[eARGUMENT_NUM];
-
+		eBYTE_ORDER byteOrder;
 	public:
 		CArgumentParser(int argc, char **argv):
 			n_argc(argc)
@@ -52,6 +63,9 @@ namespace tool{
 			return (char**)ch_checkArgs;
 		}
 		bool Parse();
+		eBYTE_ORDER GetByteOrder(){
+			return byteOrder;
+		}
 	private:
 		void Error(const char *ch_message);
 
