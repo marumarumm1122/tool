@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
 #include "ArgumentParser.h"
 
 bool CArgumentParser::Parse(){
@@ -13,10 +14,13 @@ bool CArgumentParser::Parse(){
 
 }
 bool CArgumentParser::ArgumentCheck(){
+    if(ch_checkArgs[eARGUMENT_VERSION_COMMAND]!=NULL || ch_checkArgs[eARGUMENT_HELP_COMMAND]!=NULL){
+        return true;
+    }
 	if(ch_checkArgs[eARGUMENT_INPUT_FILE_COMMAND]==NULL 
 		|| ch_checkArgs[eARGUMENT_OUTPUT_FILE_COMMAND]==NULL 
 		|| ch_checkArgs[eARGUMENT_ENDIAN_COMMAND]==NULL 
-		|| ch_checkArgs[eARGUMENT_VERSION_COMMAND]==NULL 
+		|| ch_checkArgs[eARGUMENT_FILEVERSION_COMMAND]==NULL 
 		){
 		Error("argument invalid count.");
 		return false;
@@ -62,29 +66,45 @@ bool CArgumentParser::ParseArguments(){
     		}
     	    continue;
         }
-    	if(strncmp(ch_argv[nCnt],"-v",2)==0){
+    	if(strncmp(ch_argv[nCnt],"-n",2)==0){
     		if(nCnt+1>=n_argc){
-    			Error("argument index out ob bounds '-v'.");
+    			Error("argument index out ob bounds '-n'.");
     			return false;
     		}
-    	    ch_checkArgs[eARGUMENT_VERSION_COMMAND] = ch_argv[nCnt];
-    	    ch_checkArgs[eARGUMENT_VERSION_DATA] = ch_argv[++nCnt];
+            if(atoi(ch_argv[nCnt+1])==0){
+                Error("argument not digit");
+                return false;
+            }
+    	    ch_checkArgs[eARGUMENT_FILEVERSION_COMMAND] = ch_argv[nCnt];
+    	    ch_checkArgs[eARGUMENT_FILEVERSION_DATA] = ch_argv[++nCnt];
     	    continue;
+        }
+        if(strncmp(ch_argv[nCnt],"-v",2)==0){
+            ch_checkArgs[eARGUMENT_VERSION_COMMAND] = ch_argv[nCnt];
+            continue;
+        }
+        if(strncmp(ch_argv[nCnt],"-h",2)==0){
+            ch_checkArgs[eARGUMENT_HELP_COMMAND] = ch_argv[nCnt];
+            continue;
         }
 
     }
 	return true;
 }
-
+void CArgumentParser::Usage(){
+#if defined(_WIN32)
+    printf( "usage: StrDataConverter.exe -f <input> -o <output> -e <byte order> -n <file version> \n" );
+#else   // defined(_WIN32)
+    printf("usage: StrDataConverter.bin -f <input> -o <output> -e <byte order> -n <file version> \n" );
+#endif  // defined(_WIN32)
+    printf( "-f : input filename\n" );
+    printf( "-o : output filename\n" );
+    printf( "-e : byte order(be or le) be by default\n" );
+    printf( "-v : version\n" );
+    printf( "-n : file version\n");
+    printf( "-h : help\n");
+}
 void CArgumentParser::Error(const char *ch_message){
 	printf("%s\n",ch_message);
-#if defined(_WIN32)
-    printf( "usage: StrDataConverter.exe -f <input> -o <output> -e <byte order> -v <version>\n" );
-#else   // defined(_WIN32)
-	printf("usage: test -f <file> -o <file> -e be/le -v <version> \n\n");
-#endif  // defined(_WIN32)
-	printf( "-f : input filename\n" );
-	printf( "-o : output filename\n" );
-	printf( "-e : byte order(be or le) be by default\n" );
-    printf( "-v : version\n" );
+    Usage();
 }

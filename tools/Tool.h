@@ -6,10 +6,11 @@ class CTool
 private:
 	const int n_argc;
 	char **ch_argv;
+	CTool():n_argc(0){}
 
 public:
 	// メイン処理.
-	void Main();
+	short Main();
 
 	CTool(int argc, char **argv):
 		n_argc(argc)

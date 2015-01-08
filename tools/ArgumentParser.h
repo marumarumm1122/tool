@@ -6,7 +6,7 @@ class CArgumentParser
 private:
 	const int n_argc;
 	char **ch_argv;
-
+	short sh_errorCode;
 public:
 	enum eFORMAT{
 		eFORMAT_START = 0,
@@ -36,8 +36,10 @@ public:
 		eARGUMENT_OUTPUT_FILE_DATA,
 		eARGUMENT_ENDIAN_COMMAND,
 		eARGUMENT_ENDIAN_DATA,
+		eARGUMENT_FILEVERSION_COMMAND,
+		eARGUMENT_FILEVERSION_DATA,
 		eARGUMENT_VERSION_COMMAND,
-		eARGUMENT_VERSION_DATA,
+		eARGUMENT_HELP_COMMAND,
 
 		eARGUMENT_NUM,
 		eARGUMENT_MAX = eARGUMENT_NUM - 1,
@@ -47,9 +49,11 @@ private:
 	// 引数チェック用
 	const char *ch_checkArgs[eARGUMENT_NUM];
 	eBYTE_ORDER byteOrder;
+	CArgumentParser():n_argc(0),sh_errorCode(0){}
 public:
 	CArgumentParser(int argc, char **argv):
-		n_argc(argc)
+		n_argc(argc),
+		sh_errorCode(0)
 		{
 		ch_argv = argv;
 
@@ -65,6 +69,10 @@ public:
 	eBYTE_ORDER GetByteOrder(){
 		return byteOrder;
 	}
+	short GetErrorCode(){
+		return sh_errorCode;
+	}
+	void Usage();
 private:
 	void Error(const char *ch_message);
 

@@ -16,17 +16,46 @@ namespace{
 const char *CToolInvoker::CH_EXPORT_HEADER_FILE_NAME = "S_LINK_DATA_STRING_HEADER.h";
 
 int CToolInvoker::Invoke(){
+    // バージョンチェック.
+    if(VersionCheck()){
+        return 0;
+    }
+
+    // ヘルプチェック.
+    if(HelpCheck()){
+        return 0;
+    }
+
 	// 入力ファイルをオープン.
 	Read();
 
 	// 入力データを変換.
 	Convert();
 
-    // 出力ファイルに書き込む
+    // 出力ファイルに書き込む.
     Write();
 
     return 0;
 }
+
+bool CToolInvoker::HelpCheck(){
+    char **ch_args = parser->GetParseArgs();
+    if(ch_args[CArgumentParser::eARGUMENT_HELP_COMMAND]!=NULL){
+        parser->Usage();
+        return true;
+    }
+    return false;
+}
+
+bool CToolInvoker::VersionCheck(){
+    char **ch_args = parser->GetParseArgs();
+    if(ch_args[CArgumentParser::eARGUMENT_VERSION_COMMAND]!=NULL){
+        printf("tool version 1.0\n");
+        return true;
+    }
+    return false;
+}
+
 void CToolInvoker::Read(){
 	char **ch_args = parser->GetParseArgs();
 	FILE *fp;
@@ -107,7 +136,7 @@ void CToolInvoker::Write(){
     
     // write version.
     short *sh_version = reinterpret_cast<short*>(malloc(sizeof(short)));
-    short n_versionTmp = atoi(ch_args[CArgumentParser::eARGUMENT_VERSION_DATA]);
+    short n_versionTmp = atoi(ch_args[CArgumentParser::eARGUMENT_FILEVERSION_DATA]);
     if(parser->GetByteOrder()==CArgumentParser::eBYTE_ORDER_BIGENDIAN){
     	printf("convert BIG ENDIAN\n");
         n_versionTmp = htons(n_versionTmp);
