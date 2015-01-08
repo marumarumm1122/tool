@@ -1,12 +1,9 @@
 #include "tools/Tool.h"
 
-using namespace tool;
-
 int main(int argc, char **argv){
-	CTool *tool = new CTool(argc,argv);
+	CTool theTool(argc,argv);
 	
-    tool->Main();
-    delete tool;
+    theTool.Main();
     return 0;
 }
 

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "ArgumentParser.h"
-using namespace tool;
 
 bool CArgumentParser::Parse(){
 	if(!ParseArguments()){
