@@ -79,10 +79,13 @@ bool CArgumentParser::ParseArguments(){
 
 void CArgumentParser::Error(const char *ch_message){
 	printf("%s\n",ch_message);
-	printf("usage: test -f <file> -o <file> -e be/le -v <バージョン> \n\n");
-	printf("-f 入力ファイル名\n");
-	printf("-o 出力ファイル名\n");
-	printf("-e be ビッグエンディアン指定（デフォルト）");
-	printf(" / le リトルエンディアン指定\n");
-    printf("-v バージョン\n");
+#if defined(_WIN32)
+    printf( "usage: StrDataConverter.exe -f <input> -o <output> -e <byte order> -v <version>\n" );
+#else   // defined(_WIN32)
+	printf("usage: test -f <file> -o <file> -e be/le -v <version> \n\n");
+#endif  // defined(_WIN32)
+	printf( "-f : input filename\n" );
+	printf( "-o : output filename\n" );
+	printf( "-e : byte order(be or le) be by default\n" );
+    printf( "-v : version\n" );
 }

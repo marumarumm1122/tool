@@ -2,6 +2,10 @@
 #include <string.h>
 #include "ToolInvoker.h"
 #include <stdlib.h>
+#if defined(_WIN32)
+#include <WinSock2.h>
+#endif  // defined(_WIN32)
+
 using namespace tool;
 namespace{
     void *p_vbuffer = NULL;
