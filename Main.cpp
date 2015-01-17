@@ -1,12 +1,13 @@
 #include "tools/Tool.h"
 
-using namespace tool;
-
 int main(int argc, char **argv){
-	CTool *tool = new CTool(argc,argv);
+	CTool theTool(argc,argv);
 	
-    tool->Main();
-    delete tool;
+    short sh_error = theTool.Main();
+    if(sh_error>0){
+    	printf("error code %d\n",sh_error);
+    	return sh_error;
+    }
     return 0;
 }
 

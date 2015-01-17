@@ -1,7 +1,7 @@
 CXX = g++
-TARGET = test 
+TARGET = StrDataConverter.bin
 CXXFLAGS = -Wall -O2 -pipe
-SRCS = Main.cpp tools/Tool.cpp tools/ArgumentParser.cpp tools/ToolInvoker.cpp
+SRCS = tools/Error.cpp Main.cpp tools/Tool.cpp tools/ToolInvoker.cpp tools/ArgumentParser.cpp
 OBJS := $(SRCS:.cpp=.o)
 
 $(TARGET): $(OBJS)
@@ -10,5 +10,4 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(TARGET) $(OBJS)
 
-#g++ Main.cpp tools/Tool.cpp tools/ArgumentParser.cpp -o test
 
