@@ -16,9 +16,6 @@ private:
 	// データ個数(データ部).
 	int n_count;
     
-    // データ個数(ヘッダ部).
-    int n_nCount;
-    
 	short sh_errorCode;
 
 	bool Read();

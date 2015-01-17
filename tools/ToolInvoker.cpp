@@ -134,7 +134,6 @@ bool CToolInvoker::WorkFileRead(){
     fread(p_nbuffer,n_fsize,1,fp);
     
     fclose(fp);
-    n_nCount = n_fsize;
     
     return true;
 }
