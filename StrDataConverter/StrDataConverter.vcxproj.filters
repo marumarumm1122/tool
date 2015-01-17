@@ -33,6 +33,9 @@
     <ClInclude Include="..\tools\ToolInvoker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="..\tools\Error.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -48,6 +51,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\tools\ToolInvoker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tools\Error.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
