@@ -4,6 +4,7 @@
 #include "ArgumentParser.h"
 #include "ToolInvoker.h"
 
+const char *CTool::TOOL_VERSION = "1.0";
 short CTool::Main(){
     CArgumentParser parser(n_argc,ch_argv);
     if(!parser.Parse()){

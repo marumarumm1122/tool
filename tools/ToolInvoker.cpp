@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Error.h"
+#include "Tool.h"
 #include <string.h>
 #include "ToolInvoker.h"
 #include <stdlib.h>
@@ -51,7 +52,7 @@ bool CToolInvoker::HelpCheck(){
 bool CToolInvoker::VersionCheck(){
     char **ch_args = parser->GetParseArgs();
     if(ch_args[CArgumentParser::eARGUMENT_VERSION_COMMAND]!=NULL){
-        printf("tool version 1.0\n");
+        printf("tool version %s\n",CTool::TOOL_VERSION);
         return true;
     }
     return false;

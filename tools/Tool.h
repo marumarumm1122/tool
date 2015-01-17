@@ -11,6 +11,7 @@ private:
 public:
 	// メイン処理.
 	short Main();
+    static const char *TOOL_VERSION;
 
 	CTool(int argc, char **argv):
 		n_argc(argc)
