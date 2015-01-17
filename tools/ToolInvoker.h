@@ -7,21 +7,27 @@ class CToolInvoker
 private:
 	CArgumentParser *parser;
 	static const char *CH_EXPORT_HEADER_FILE_NAME;
+    static const char *WORK_FILE_EXT_CONST_NAME;
+    static const char *WORK_FILE_EXT_CONST_VALUE;
 	
 	// データ行数.
 	int n_line;
 
-	// データ個数.
+	// データ個数(データ部).
 	int n_count;
-
+    
 	short sh_errorCode;
 
-	void Read();
-	void Convert();
-	void LineCount();
-	void Write();
+	bool Read();
+	bool Convert();
+	bool LineCount();
+	bool Write();
 	bool HelpCheck();
 	bool VersionCheck();
+    bool WriteWorkFile();
+    bool InputFileRead();
+    bool WriteTemporaryFile();
+    bool WriteHeaderFile();
 	CToolInvoker():sh_errorCode(0){}
 public:
 	CToolInvoker(CArgumentParser *parser):

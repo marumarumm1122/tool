@@ -17,6 +17,7 @@ public:
     static const short ERR_ARG_NOT_DIGIT_PARAMETER_FILEVERSION_VALUE;
     static const short ERR_INV_INPUT_FILE_NOT_OPEN;
     static const short ERR_INV_OUTPUT_FILE_NOT_OPEN;
+    static const short ERR_INV_WORK_FILE_NOT_OPEN;
 
 };
 #endif // !defined(__tool__Error__)
