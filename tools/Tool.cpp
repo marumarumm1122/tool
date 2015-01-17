@@ -3,6 +3,7 @@
 #include <string.h>
 #include "ArgumentParser.h"
 #include "ToolInvoker.h"
+
 short CTool::Main(){
     CArgumentParser parser(n_argc,ch_argv);
     if(!parser.Parse()){

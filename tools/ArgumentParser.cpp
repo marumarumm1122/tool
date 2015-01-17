@@ -2,6 +2,7 @@
 #include <string.h>
 #include <iostream>
 #include "ArgumentParser.h"
+#include "Error.h"
 
 bool CArgumentParser::Parse(){
 	if(!ParseArguments()){
@@ -17,14 +18,22 @@ bool CArgumentParser::ArgumentCheck(){
     if(ch_checkArgs[eARGUMENT_VERSION_COMMAND]!=NULL || ch_checkArgs[eARGUMENT_HELP_COMMAND]!=NULL){
         return true;
     }
-	if(ch_checkArgs[eARGUMENT_INPUT_FILE_COMMAND]==NULL 
-		|| ch_checkArgs[eARGUMENT_OUTPUT_FILE_COMMAND]==NULL 
-		|| ch_checkArgs[eARGUMENT_ENDIAN_COMMAND]==NULL 
-		|| ch_checkArgs[eARGUMENT_FILEVERSION_COMMAND]==NULL 
-		){
-		Error("argument invalid count.");
-		return false;
-	}
+	if(ch_checkArgs[eARGUMENT_INPUT_FILE_COMMAND]==NULL ){
+        sh_errorCode = CError::ERR_ARG_REQUIRED_PARAMETER_INPUT_FILE;
+        return false;
+    }
+    if(ch_checkArgs[eARGUMENT_OUTPUT_FILE_COMMAND]==NULL ){
+        sh_errorCode = CError::ERR_ARG_REQUIRED_PARAMETER_OUTPUT_FILE;
+        return false;
+    }
+    if(ch_checkArgs[eARGUMENT_ENDIAN_COMMAND]==NULL ){
+        sh_errorCode = CError::ERR_ARG_REQUIRED_PARAMETER_ENDIAN;
+        return false;
+    }
+    if(ch_checkArgs[eARGUMENT_FILEVERSION_COMMAND]==NULL ){
+        sh_errorCode = CError::ERR_ARG_REQUIRED_PARAMETER_FILEVERSION;
+        return false;
+    }
 	return true;
 }
 bool CArgumentParser::ParseArguments(){
@@ -32,6 +41,7 @@ bool CArgumentParser::ParseArguments(){
     	if(strncmp(ch_argv[nCnt],"-f",2)==0){
     		if(nCnt+1>=n_argc){
     			Error("argument index out ob bounds '-f'.");
+                sh_errorCode = CError::ERR_ARG_ILLEGAL_PARAMETER_INPUT_FILE_VALUE;
     			return false;
     		}
     	    ch_checkArgs[eARGUMENT_INPUT_FILE_COMMAND] = ch_argv[nCnt];
@@ -41,6 +51,7 @@ bool CArgumentParser::ParseArguments(){
     	if(strncmp(ch_argv[nCnt],"-o",2)==0){
     		if(nCnt+1>=n_argc){
     			Error("argument index out ob bounds '-o'.");
+                sh_errorCode = CError::ERR_ARG_ILLEGAL_PARAMETER_OUTPUT_FILE_VALUE;
     			return false;
     		}
     	    ch_checkArgs[eARGUMENT_OUTPUT_FILE_COMMAND] = ch_argv[nCnt];
@@ -50,6 +61,7 @@ bool CArgumentParser::ParseArguments(){
     	if(strncmp(ch_argv[nCnt],"-e",2)==0){
     		if(nCnt+1>=n_argc){
     			Error("argument index out ob bounds '-e'.");
+                sh_errorCode = CError::ERR_ARG_ILLEGAL_PARAMETER_ENDIAN_VALUE;
     			return false;
     		}
     		if(strncmp(ch_argv[nCnt+1],"be",2)==0){
@@ -62,6 +74,7 @@ bool CArgumentParser::ParseArguments(){
                 byteOrder = eBYTE_ORDER_LITTLEENDIAN;
             }else{
     			Error("argument endian is not word be/le.");
+                sh_errorCode = CError::ERR_ARG_UNKNOWN_PARAMETER_ENDIAN_VALUE;
     			return false;
     		}
     	    continue;
@@ -69,10 +82,12 @@ bool CArgumentParser::ParseArguments(){
     	if(strncmp(ch_argv[nCnt],"-n",2)==0){
     		if(nCnt+1>=n_argc){
     			Error("argument index out ob bounds '-n'.");
+                sh_errorCode = CError::ERR_ARG_ILLEGAL_PARAMETER_FILEVERSION_VALUE;
     			return false;
     		}
             if(atoi(ch_argv[nCnt+1])==0){
                 Error("argument not digit");
+                sh_errorCode = CError::ERR_ARG_NOT_DIGIT_PARAMETER_FILEVERSION_VALUE;
                 return false;
             }
     	    ch_checkArgs[eARGUMENT_FILEVERSION_COMMAND] = ch_argv[nCnt];

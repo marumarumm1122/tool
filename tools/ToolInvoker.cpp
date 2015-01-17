@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "Error.h"
 #include <string.h>
 #include "ToolInvoker.h"
 #include <stdlib.h>
@@ -63,6 +64,7 @@ void CToolInvoker::Read(){
     fp = fopen(ch_args[CArgumentParser::eARGUMENT_INPUT_FILE_DATA],"rb");
     if(fp==NULL){
         printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",ch_args[CArgumentParser::eARGUMENT_INPUT_FILE_DATA]);
+        sh_errorCode = CError::ERR_INV_INPUT_FILE_NOT_OPEN;
         return ;
     }
     
@@ -131,6 +133,7 @@ void CToolInvoker::Write(){
     fp = fopen(ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA],"wb");
     if(fp==NULL){
         printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA]);
+        sh_errorCode = CError::ERR_INV_OUTPUT_FILE_NOT_OPEN;
         return ;
     }
     
