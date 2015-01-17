@@ -15,7 +15,8 @@ namespace{
     int *n_startHeaderList;
     // インプットファイル用.
     void *p_vibuffer = NULL;
-    
+    // ワークファイル用.
+    void *p_nbuffer = NULL;
 }
 const char *CToolInvoker::CH_EXPORT_HEADER_FILE_NAME = "S_LINK_DATA_STRING_HEADER.h";
 const char *CToolInvoker::WORK_FILE_EXT_CONST_NAME = ".constn";
@@ -60,7 +61,43 @@ int CToolInvoker::Invoke(){
     return 0;
 }
 bool CToolInvoker::WriteHeaderFile(){
+    if(!WorkFileRead()){
+        return false;
+    }
+    const char *ch_header = "//\n//  S_LINK_DATA_STRING_HEADER.h\n//\n// これはツールで自動出力されるものです.\n// 手動でいじるのは禁止です.\n#if !defined(__amida__S_LINK_DATA_STRING_HEADER__)\n#define __amida__S_LINK_DATA_STRING_HEADER__\n";
+    const char *ch_data = "#define S_LINK_DATA_STRING_HEADER_";
+    const char *ch_footer = "#endif // !defined(__amida__S_LINK_DATA_STRING_HEADER__)\n";
     
+    FILE *fp;
+    fp = fopen(CH_EXPORT_HEADER_FILE_NAME,"wb");
+    if(fp==NULL){
+        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",CH_EXPORT_HEADER_FILE_NAME);
+        sh_errorCode = CError::ERR_INV_OUTPUT_FILE_NOT_OPEN;
+        return false;
+    }
+    
+    fwrite(ch_header, strlen(ch_header),1,fp);
+
+    char *ch_pBuffer = reinterpret_cast<char*>(p_nbuffer);
+    fwrite(ch_data,strlen(ch_data),1,fp);
+    int nCnt = 0;
+    do{
+        if(ch_pBuffer[0]=='\n' || ch_pBuffer[0]=='\0'){
+            fprintf(fp," %d\n",nCnt);
+            nCnt++;
+            if(nCnt >= n_line){
+                break;
+            }
+            fwrite(ch_data,strlen(ch_data),1,fp);
+            continue;
+        }
+        fwrite(ch_pBuffer,sizeof(char),1,fp);
+
+    }while(*ch_pBuffer++);
+
+    fwrite(ch_footer, strlen(ch_footer),1,fp);
+    
+    fclose(fp);
     return true;
 }
 bool CToolInvoker::WriteWorkFile(){
@@ -75,6 +112,33 @@ bool CToolInvoker::WriteWorkFile(){
     }
     return true;
 }
+bool CToolInvoker::WorkFileRead(){
+	char **ch_args = parser->GetParseArgs();
+	FILE *fp;
+    fpos_t n_fsize;
+    char *workn = reinterpret_cast<char*>(malloc(sizeof(char)*100));
+    strcpy(workn,ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA]);
+    strcat(workn,WORK_FILE_EXT_CONST_NAME);
+    fp = fopen(workn,"rb");
+    if(fp==NULL){
+        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",workn);
+        sh_errorCode = CError::ERR_INV_WORK_FILE_NOT_OPEN;
+        return false;
+    }
+    free(workn);
+    
+    fpos_t fsizeb = fseek(fp,0,SEEK_END);
+    fgetpos(fp, &n_fsize);
+    fseek(fp,fsizeb,SEEK_SET);
+    p_nbuffer = malloc(n_fsize);
+    fread(p_nbuffer,n_fsize,1,fp);
+    
+    fclose(fp);
+    n_nCount = n_fsize;
+    
+    return true;
+}
+
 bool CToolInvoker::InputFileRead(){
     char **ch_args = parser->GetParseArgs();
 	FILE *fp;

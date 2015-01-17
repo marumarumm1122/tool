@@ -16,6 +16,9 @@ private:
 	// データ個数(データ部).
 	int n_count;
     
+    // データ個数(ヘッダ部).
+    int n_nCount;
+    
 	short sh_errorCode;
 
 	bool Read();
@@ -28,6 +31,7 @@ private:
     bool InputFileRead();
     bool WriteTemporaryFile();
     bool WriteHeaderFile();
+    bool WorkFileRead();
 	CToolInvoker():sh_errorCode(0){}
 public:
 	CToolInvoker(CArgumentParser *parser):
