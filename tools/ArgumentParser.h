@@ -6,7 +6,7 @@ class CArgumentParser
 private:
 	const int n_argc;
 	char **ch_argv;
-	short sh_errorCode;
+	short m_shErrorCode;
 public:
 	enum eFORMAT{
 		eFORMAT_START = 0,
@@ -38,7 +38,11 @@ public:
 		eARGUMENT_ENDIAN_DATA,
 		eARGUMENT_FILEVERSION_COMMAND,
 		eARGUMENT_FILEVERSION_DATA,
-		eARGUMENT_VERSION_COMMAND,
+        eARGUMENT_OUTPUT_HEADER_NAME_COMMAND,
+		eARGUMENT_OUTPUT_HEADER_NAME_DATA,
+        eARGUMENT_OUTPUT_ENUM_NAME_COMMAND,
+		eARGUMENT_OUTPUT_ENUM_NAME_DATA,
+        eARGUMENT_VERSION_COMMAND,
 		eARGUMENT_HELP_COMMAND,
 
 		eARGUMENT_NUM,
@@ -47,30 +51,32 @@ public:
 	};
 private:
 	// 引数チェック用
-	const char *ch_checkArgs[eARGUMENT_NUM];
-	eBYTE_ORDER byteOrder;
-	CArgumentParser():n_argc(0),sh_errorCode(0){}
+	const char *m_chCheckArgs[eARGUMENT_NUM];
+	eBYTE_ORDER m_byteOrder;
+	CArgumentParser():n_argc(0),m_shErrorCode(0){}
 public:
 	CArgumentParser(int argc, char **argv):
 		n_argc(argc),
-		sh_errorCode(0)
+		m_shErrorCode(0)
 		{
 		ch_argv = argv;
 
 	    for(int nCnt=0;nCnt<eARGUMENT_NUM;nCnt++){
-	    	ch_checkArgs[nCnt] = NULL;
+	    	m_chCheckArgs[nCnt] = NULL;
 	    }
 
 	}
-	char **GetParseArgs(){
-		return (char**)ch_checkArgs;
+	char **GetParseArgs()
+    {
+		return (char**)m_chCheckArgs;
 	}
 	bool Parse();
 	eBYTE_ORDER GetByteOrder(){
-		return byteOrder;
+		return m_byteOrder;
 	}
-	short GetErrorCode(){
-		return sh_errorCode;
+	short GetErrorCode()
+    {
+		return m_shErrorCode;
 	}
 	void Usage();
 private:

@@ -1,6 +1,7 @@
 #include "tools/Tool.h"
 
-int main(int argc, char **argv){
+int main(int argc, char **argv)
+{
 	CTool theTool(argc,argv);
 	
     short sh_error = theTool.Main();

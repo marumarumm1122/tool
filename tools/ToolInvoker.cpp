@@ -17,12 +17,14 @@ namespace{
     void *p_vibuffer = NULL;
     // ワークファイル用.
     void *p_nbuffer = NULL;
+    
 }
 const char *CToolInvoker::CH_EXPORT_HEADER_FILE_NAME = "S_LINK_DATA_STRING_HEADER.h";
 const char *CToolInvoker::WORK_FILE_EXT_CONST_NAME = ".constn";
 const char *CToolInvoker::WORK_FILE_EXT_CONST_VALUE = ".constv";
 
-int CToolInvoker::Invoke(){
+int CToolInvoker::Invoke()
+{
     // バージョンチェック.
     if(VersionCheck()){
         return 0;
@@ -35,64 +37,137 @@ int CToolInvoker::Invoke(){
     
     // 入力ファイルをオープンして二つの一時ファイルに振り分ける.
     if(!WriteWorkFile()){
-        return sh_errorCode;
+        return m_shErrorCode;
     }
     
 	// 振り分けた一時ファイル二つ目をオープン.
     if(!Read()){
-        return sh_errorCode;
+        return m_shErrorCode;
     }
     
 	// 振り分けた一時ファイル二つ目を変換.
     if(!Convert()){
-        return sh_errorCode;
+        return m_shErrorCode;
     }
     
     // 出力ファイルに書き込む.
     if(!Write()){
-        return sh_errorCode;
+        return m_shErrorCode;
     }
     
     // 振り分けた一時ファイル一つ目をもとに定数用ヘッダファイルを書き出す
     if(!WriteHeaderFile()){
-        return sh_errorCode;
+        return m_shErrorCode;
     }
     
     return 0;
 }
-bool CToolInvoker::WriteHeaderFile(){
+const char *CToolInvoker::GetHeaderFileName()
+{
+    char **ch_args = m_parser->GetParseArgs();
+    if(ch_args[CArgumentParser::eARGUMENT_OUTPUT_HEADER_NAME_DATA]==NULL){
+        return CH_EXPORT_HEADER_FILE_NAME;
+    }
+    return ch_args[CArgumentParser::eARGUMENT_OUTPUT_HEADER_NAME_DATA];
+}
+void CToolInvoker::WriteEndLine(FILE *fp,int nLineCnt)
+{
+    if(nLineCnt==0){
+        const char *ch_enumName = GetEnumName();
+        fprintf(fp," = %s_START,\n",ch_enumName);
+        return;
+    }
+    fprintf(fp," ,\n");
+}
+void CToolInvoker::GetIncludeHeaderName(char *ch_includeHeaderName,const char *headerFileName)
+{
+    int nMax = strlen(headerFileName);
+    int nCnt = nMax-1;
+    while(nCnt>=0){
+        nCnt--;
+        if(headerFileName[nCnt]=='.'){
+            break;
+        }
+    }
+    if(nCnt<0){
+        ch_includeHeaderName = NULL;
+    }
+    strncpy(ch_includeHeaderName,headerFileName,nCnt);
+    ch_includeHeaderName[nCnt+1] = '\0';
+}
+void CToolInvoker::MakeHeaderData(char *ch_header,const char *chHeaderFileName,char *ch_includeHeaderName)
+{
+    const char *ch_enumName = GetEnumName();
+    
+    sprintf(ch_header,"//\n//  %s\n//\n// これはツールで自動出力されるものです.\n// 変数名のみ変更できます.\n#if !defined(__%s__)\n#define __%s__\n\nenum %s{\n\t%s_START = 0,\n\n"
+            ,chHeaderFileName
+            ,ch_includeHeaderName
+            ,ch_includeHeaderName
+            ,ch_enumName
+            ,ch_enumName
+            );
+}
+void CToolInvoker::MakeFooterData(char *ch_footer,char *ch_includeHeaderName)
+{
+    const char *ch_enumName = GetEnumName();
+
+    sprintf(ch_footer,"\n\t%s_NUM,\n\t%s_MAX = %s_NUM - 1,\n};\n\n#endif // !defined(__%s__)\n"
+            ,ch_enumName
+            ,ch_enumName
+            ,ch_enumName
+            ,ch_includeHeaderName
+            );
+}
+const char *CToolInvoker::GetEnumName()
+{
+    char **ch_args = m_parser->GetParseArgs();
+    if(ch_args[CArgumentParser::eARGUMENT_OUTPUT_ENUM_NAME_DATA]==NULL){
+        return "eLINK_DATA_STRING_HEADER";
+    }
+    return ch_args[CArgumentParser::eARGUMENT_OUTPUT_ENUM_NAME_DATA];
+}
+bool CToolInvoker::WriteHeaderFile()
+{
     if(!WorkFileRead()){
         return false;
     }
-    const char *ch_header = "//\n//  S_LINK_DATA_STRING_HEADER.h\n//\n// これはツールで自動出力されるものです.\n// 手動でいじるのは禁止です.\n#if !defined(__amida__S_LINK_DATA_STRING_HEADER__)\n#define __amida__S_LINK_DATA_STRING_HEADER__\n";
-    const char *ch_data = "#define S_LINK_DATA_STRING_HEADER_";
-    const char *ch_footer = "#endif // !defined(__amida__S_LINK_DATA_STRING_HEADER__)\n";
+    const char *chHeaderFileName = GetHeaderFileName();
+    const char *ch_enumName = GetEnumName();
+
+    char ch_includeHeaderName[64];
+    GetIncludeHeaderName(ch_includeHeaderName,chHeaderFileName);
+
+    char ch_header[1024];
+    MakeHeaderData(ch_header,chHeaderFileName,ch_includeHeaderName);
+    
+    char ch_footer[1024];
+    MakeFooterData(ch_footer,ch_includeHeaderName);
     
     FILE *fp;
-    fp = fopen(CH_EXPORT_HEADER_FILE_NAME,"wb");
+    fp = fopen(chHeaderFileName,"wb");
     if(fp==NULL){
-        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",CH_EXPORT_HEADER_FILE_NAME);
-        sh_errorCode = CError::ERR_INV_OUTPUT_FILE_NOT_OPEN;
+        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",chHeaderFileName);
+        m_shErrorCode = ERR_INV_OUTPUT_FILE_NOT_OPEN;
         return false;
     }
     
     fwrite(ch_header, strlen(ch_header),1,fp);
 
     char *ch_pBuffer = reinterpret_cast<char*>(p_nbuffer);
-    fwrite(ch_data,strlen(ch_data),1,fp);
-    int nCnt = 0;
+    fprintf(fp,"\t%s_",ch_enumName);
+    int nLineCnt = 0;
     do{
         if(ch_pBuffer[0]=='\n' || ch_pBuffer[0]=='\0'){
-            fprintf(fp," %d\n",nCnt);
-            nCnt++;
-            if(nCnt >= n_line){
+            WriteEndLine(fp,nLineCnt);
+            
+            nLineCnt++;
+            if(nLineCnt >= m_nLine){
                 break;
             }
-            fwrite(ch_data,strlen(ch_data),1,fp);
+            fprintf(fp,"\t%s_",ch_enumName);
             continue;
         }
         fwrite(ch_pBuffer,sizeof(char),1,fp);
-
     }while(*ch_pBuffer++);
 
     fwrite(ch_footer, strlen(ch_footer),1,fp);
@@ -100,7 +175,8 @@ bool CToolInvoker::WriteHeaderFile(){
     fclose(fp);
     return true;
 }
-bool CToolInvoker::WriteWorkFile(){
+bool CToolInvoker::WriteWorkFile()
+{
     // 入力ファイルを読み込む
     if(!InputFileRead()){
         return false;
@@ -112,8 +188,9 @@ bool CToolInvoker::WriteWorkFile(){
     }
     return true;
 }
-bool CToolInvoker::WorkFileRead(){
-	char **ch_args = parser->GetParseArgs();
+bool CToolInvoker::WorkFileRead()
+{
+	char **ch_args = m_parser->GetParseArgs();
 	FILE *fp;
     fpos_t n_fsize;
     char *workn = reinterpret_cast<char*>(malloc(sizeof(char)*100));
@@ -122,7 +199,7 @@ bool CToolInvoker::WorkFileRead(){
     fp = fopen(workn,"rb");
     if(fp==NULL){
         printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",workn);
-        sh_errorCode = CError::ERR_INV_WORK_FILE_NOT_OPEN;
+        m_shErrorCode = ERR_INV_WORK_FILE_NOT_OPEN;
         return false;
     }
     free(workn);
@@ -138,14 +215,15 @@ bool CToolInvoker::WorkFileRead(){
     return true;
 }
 
-bool CToolInvoker::InputFileRead(){
-    char **ch_args = parser->GetParseArgs();
+bool CToolInvoker::InputFileRead()
+{
+    char **ch_args = m_parser->GetParseArgs();
 	FILE *fp;
     fpos_t n_fsize;
     fp = fopen(ch_args[CArgumentParser::eARGUMENT_INPUT_FILE_DATA],"rb");
     if(fp==NULL){
         printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",ch_args[CArgumentParser::eARGUMENT_INPUT_FILE_DATA]);
-        sh_errorCode = CError::ERR_INV_INPUT_FILE_NOT_OPEN;
+        m_shErrorCode = ERR_INV_INPUT_FILE_NOT_OPEN;
         return false;
     }
     
@@ -159,8 +237,9 @@ bool CToolInvoker::InputFileRead(){
     
     return true;
 }
-bool CToolInvoker::WriteTemporaryFile(){
-    char **ch_args = parser->GetParseArgs();
+bool CToolInvoker::WriteTemporaryFile()
+{
+    char **ch_args = m_parser->GetParseArgs();
     char *workn = reinterpret_cast<char*>(malloc(sizeof(char)*100));
     strcpy(workn,ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA]);
     strcat(workn,WORK_FILE_EXT_CONST_NAME);
@@ -172,7 +251,7 @@ bool CToolInvoker::WriteTemporaryFile(){
     fpc = fopen(workn,"wb");
     if(fpc==NULL){
         printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",workn);
-        sh_errorCode = CError::ERR_INV_WORK_FILE_NOT_OPEN;
+        m_shErrorCode = ERR_INV_WORK_FILE_NOT_OPEN;
         return false;
     }
 
@@ -180,7 +259,7 @@ bool CToolInvoker::WriteTemporaryFile(){
     fpv = fopen(workv,"wb");
     if(fpv==NULL){
         printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",workv);
-        sh_errorCode = CError::ERR_INV_WORK_FILE_NOT_OPEN;
+        m_shErrorCode = ERR_INV_WORK_FILE_NOT_OPEN;
         fclose(fpc);
         return false;
     }
@@ -217,17 +296,19 @@ bool CToolInvoker::WriteTemporaryFile(){
     
     return true;
 }
-bool CToolInvoker::HelpCheck(){
-    char **ch_args = parser->GetParseArgs();
+bool CToolInvoker::HelpCheck()
+{
+    char **ch_args = m_parser->GetParseArgs();
     if(ch_args[CArgumentParser::eARGUMENT_HELP_COMMAND]!=NULL){
-        parser->Usage();
+        m_parser->Usage();
         return true;
     }
     return false;
 }
 
-bool CToolInvoker::VersionCheck(){
-    char **ch_args = parser->GetParseArgs();
+bool CToolInvoker::VersionCheck()
+{
+    char **ch_args = m_parser->GetParseArgs();
     if(ch_args[CArgumentParser::eARGUMENT_VERSION_COMMAND]!=NULL){
         printf("tool version %s\n",CTool::TOOL_VERSION);
         return true;
@@ -235,8 +316,9 @@ bool CToolInvoker::VersionCheck(){
     return false;
 }
 
-bool CToolInvoker::Read(){
-	char **ch_args = parser->GetParseArgs();
+bool CToolInvoker::Read()
+{
+	char **ch_args = m_parser->GetParseArgs();
 	FILE *fp;
     fpos_t n_fsize;
     char *workv = reinterpret_cast<char*>(malloc(sizeof(char)*100));
@@ -245,7 +327,7 @@ bool CToolInvoker::Read(){
     fp = fopen(workv,"rb");
     if(fp==NULL){
         printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",workv);
-        sh_errorCode = CError::ERR_INV_WORK_FILE_NOT_OPEN;
+        m_shErrorCode = ERR_INV_WORK_FILE_NOT_OPEN;
         return false;
     }
     free(workv);
@@ -258,18 +340,20 @@ bool CToolInvoker::Read(){
     
     fclose(fp);
     p_convertBuffer = malloc(n_fsize+1);
-    n_count = n_fsize;
+    m_nCount = n_fsize;
     
     return true;
 }
-bool CToolInvoker::Convert(){
+bool CToolInvoker::Convert()
+{
 	// 行数カウント.
 	return LineCount();
     
     
 }
-bool CToolInvoker::LineCount(){
-    n_line = 0;
+bool CToolInvoker::LineCount()
+{
+    m_nLine = 0;
     int n_bufferCount = 0;
     n_headerList = reinterpret_cast<int*>(malloc(sizeof(int)));
     char *ch_pBuffer = reinterpret_cast<char*>(p_vbuffer);
@@ -290,21 +374,21 @@ bool CToolInvoker::LineCount(){
             break;
         }
         
-        n_headerList = reinterpret_cast<int*>(realloc(n_headerList,sizeof(int)*n_line));
-        n_headerList[n_line] = n_bufferCount;
+        n_headerList = reinterpret_cast<int*>(realloc(n_headerList,sizeof(int)*m_nLine));
+        n_headerList[m_nLine] = n_bufferCount;
         
-        printf("col count:%d\n",n_headerList[n_line]);
-        n_line++;
+        printf("col count:%d\n",n_headerList[m_nLine]);
+        m_nLine++;
         
     }while(*ch_pBuffer++);
-    printf("count:%d\n",n_line);
+    printf("count:%d\n",m_nLine);
     
     // 開始位置を入れる.
     n_startHeaderList = reinterpret_cast<int*>(malloc(sizeof(int)));
     n_startHeaderList[0]=0;
-    for(int nCnt=1;nCnt<n_line;nCnt++){
+    for(int nCnt=1;nCnt<m_nLine;nCnt++){
         int n_headerTmp = n_headerList[nCnt-1];
-        if(parser->GetByteOrder()==CArgumentParser::eBYTE_ORDER_BIGENDIAN){
+        if(m_parser->GetByteOrder()==CArgumentParser::eBYTE_ORDER_BIGENDIAN){
 	    	printf("convert BIG ENDIAN\n");
             n_headerTmp = htonl(n_headerTmp);
         }
@@ -313,20 +397,21 @@ bool CToolInvoker::LineCount(){
     
     return true;
 }
-bool CToolInvoker::Write(){
-    char **ch_args = parser->GetParseArgs();
+bool CToolInvoker::Write()
+{
+    char **ch_args = m_parser->GetParseArgs();
     FILE *fp;
     fp = fopen(ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA],"wb");
     if(fp==NULL){
         printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA]);
-        sh_errorCode = CError::ERR_INV_OUTPUT_FILE_NOT_OPEN;
+        m_shErrorCode = ERR_INV_OUTPUT_FILE_NOT_OPEN;
         return false;
     }
     
     // write version.
     short *sh_version = reinterpret_cast<short*>(malloc(sizeof(short)));
     short n_versionTmp = atoi(ch_args[CArgumentParser::eARGUMENT_FILEVERSION_DATA]);
-    if(parser->GetByteOrder()==CArgumentParser::eBYTE_ORDER_BIGENDIAN){
+    if(m_parser->GetByteOrder()==CArgumentParser::eBYTE_ORDER_BIGENDIAN){
     	printf("convert BIG ENDIAN\n");
         n_versionTmp = htons(n_versionTmp);
     }else{
@@ -337,24 +422,24 @@ bool CToolInvoker::Write(){
     
     // write size.
     short *sh_size = reinterpret_cast<short*>(malloc(sizeof(short)));
-    short n_sizeTmp = n_line;
-    if(parser->GetByteOrder()==CArgumentParser::eBYTE_ORDER_BIGENDIAN){
+    short n_sizeTmp = m_nLine;
+    if(m_parser->GetByteOrder()==CArgumentParser::eBYTE_ORDER_BIGENDIAN){
     	printf("convert BIG ENDIAN\n");
         n_sizeTmp = htons(n_sizeTmp);
-    }else if(parser->GetByteOrder()==CArgumentParser::eBYTE_ORDER_LITTLEENDIAN){
+    }else if(m_parser->GetByteOrder()==CArgumentParser::eBYTE_ORDER_LITTLEENDIAN){
     	printf("convert LITTLE ENDIAN\n");
         //n_sizeTmp = ntohs(n_sizeTmp);
     }else{
-        printf("error[%d]\n",parser->GetByteOrder());
+        printf("error[%d]\n",m_parser->GetByteOrder());
     }
     sh_size[0] = n_sizeTmp;
     fwrite(sh_size,sizeof(short),1,fp);
     
     // write header.
-    fwrite(n_startHeaderList,n_line*sizeof(int),1,fp);
+    fwrite(n_startHeaderList,m_nLine*sizeof(int),1,fp);
     
     // write data.
-    fwrite(p_convertBuffer, n_count,1,fp);
+    fwrite(p_convertBuffer, m_nCount,1,fp);
     
     fclose(fp);
     

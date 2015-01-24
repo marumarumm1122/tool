@@ -5,18 +5,18 @@
 class CToolInvoker
 {
 private:
-	CArgumentParser *parser;
+	CArgumentParser *m_parser;
 	static const char *CH_EXPORT_HEADER_FILE_NAME;
     static const char *WORK_FILE_EXT_CONST_NAME;
     static const char *WORK_FILE_EXT_CONST_VALUE;
 	
 	// データ行数.
-	int n_line;
+	int m_nLine;
 
 	// データ個数(データ部).
-	int n_count;
+	int m_nCount;
     
-	short sh_errorCode;
+	short m_shErrorCode;
 
 	bool Read();
 	bool Convert();
@@ -29,18 +29,25 @@ private:
     bool WriteTemporaryFile();
     bool WriteHeaderFile();
     bool WorkFileRead();
-	CToolInvoker():sh_errorCode(0){}
+    const char *GetHeaderFileName();
+    void WriteEndLine(FILE *fp,int nLineCnt);
+    void GetIncludeHeaderName(char *ch_includeHeaderName,const char *headerFileName);
+    void MakeHeaderData(char *ch_header,const char *chHeaderFileName,char *ch_includeHeaderName);
+    void MakeFooterData(char *ch_footer,char *ch_includeHeaderName);
+    const char *GetEnumName();
+	CToolInvoker():m_shErrorCode(0){}
 public:
 	CToolInvoker(CArgumentParser *parser):
-		parser(parser),
-		n_line(0),
-		n_count(0),
-		sh_errorCode(0)
+		m_parser(parser),
+		m_nLine(0),
+		m_nCount(0),
+		m_shErrorCode(0)
 		{
 	}
 	int Invoke();
-	short GetErrorCode(){
-		return sh_errorCode;
+	short GetErrorCode()
+    {
+		return m_shErrorCode;
 	}
 
 };
