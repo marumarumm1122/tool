@@ -146,7 +146,7 @@ bool CToolInvoker::WriteHeaderFile()
     FILE *fp;
     fp = fopen(chHeaderFileName,"wb");
     if(fp==NULL){
-        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",chHeaderFileName);
+        printf("File open error[%s]\n",chHeaderFileName);
         m_shErrorCode = ERR_INV_OUTPUT_FILE_NOT_OPEN;
         return false;
     }
@@ -198,7 +198,7 @@ bool CToolInvoker::WorkFileRead()
     strcat(workn,WORK_FILE_EXT_CONST_NAME);
     fp = fopen(workn,"rb");
     if(fp==NULL){
-        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",workn);
+        printf("File open error[%s]\n",workn);
         m_shErrorCode = ERR_INV_WORK_FILE_NOT_OPEN;
         return false;
     }
@@ -222,7 +222,7 @@ bool CToolInvoker::InputFileRead()
     fpos_t n_fsize;
     fp = fopen(ch_args[CArgumentParser::eARGUMENT_INPUT_FILE_DATA],"rb");
     if(fp==NULL){
-        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",ch_args[CArgumentParser::eARGUMENT_INPUT_FILE_DATA]);
+        printf("File open error[%s]\n",ch_args[CArgumentParser::eARGUMENT_INPUT_FILE_DATA]);
         m_shErrorCode = ERR_INV_INPUT_FILE_NOT_OPEN;
         return false;
     }
@@ -250,7 +250,7 @@ bool CToolInvoker::WriteTemporaryFile()
     FILE *fpc;
     fpc = fopen(workn,"wb");
     if(fpc==NULL){
-        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",workn);
+        printf("File open error[%s]\n",workn);
         m_shErrorCode = ERR_INV_WORK_FILE_NOT_OPEN;
         return false;
     }
@@ -258,7 +258,7 @@ bool CToolInvoker::WriteTemporaryFile()
     FILE *fpv;
     fpv = fopen(workv,"wb");
     if(fpv==NULL){
-        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",workv);
+        printf("File open error[%s]\n",workv);
         m_shErrorCode = ERR_INV_WORK_FILE_NOT_OPEN;
         fclose(fpc);
         return false;
@@ -326,7 +326,7 @@ bool CToolInvoker::Read()
     strcat(workv,WORK_FILE_EXT_CONST_VALUE);
     fp = fopen(workv,"rb");
     if(fp==NULL){
-        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",workv);
+        printf("File open error[%s]\n",workv);
         m_shErrorCode = ERR_INV_WORK_FILE_NOT_OPEN;
         return false;
     }
@@ -374,7 +374,7 @@ bool CToolInvoker::LineCount()
             break;
         }
         
-        n_headerList = reinterpret_cast<int*>(realloc(n_headerList,sizeof(int)*m_nLine));
+        n_headerList = reinterpret_cast<int*>(realloc(n_headerList,sizeof(int)*(m_nLine+1)));
         n_headerList[m_nLine] = n_bufferCount;
         
         printf("col count:%d\n",n_headerList[m_nLine]);
@@ -403,7 +403,7 @@ bool CToolInvoker::Write()
     FILE *fp;
     fp = fopen(ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA],"wb");
     if(fp==NULL){
-        printf("ファイルエラーが発生しました:開こうとしたファイル[%s]\n",ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA]);
+        printf("File open error[%s]\n",ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA]);
         m_shErrorCode = ERR_INV_OUTPUT_FILE_NOT_OPEN;
         return false;
     }

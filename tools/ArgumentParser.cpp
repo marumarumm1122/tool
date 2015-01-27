@@ -43,7 +43,7 @@ bool CArgumentParser::ParseArguments()
 	for(int nCnt=1;nCnt<n_argc;nCnt++){
     	if(strncmp(ch_argv[nCnt],"-f",2)==0){
     		if(nCnt+1>=n_argc){
-    			Error("argument index out ob bounds '-f'.");
+    			Error("argument index out of bounds '-f'.");
                 m_shErrorCode = ERR_ARG_ILLEGAL_PARAMETER_INPUT_FILE_VALUE;
     			return false;
     		}
@@ -53,7 +53,7 @@ bool CArgumentParser::ParseArguments()
         }
     	if(strncmp(ch_argv[nCnt],"-o",2)==0){
     		if(nCnt+1>=n_argc){
-    			Error("argument index out ob bounds '-o'.");
+    			Error("argument index out of bounds '-o'.");
                 m_shErrorCode = ERR_ARG_ILLEGAL_PARAMETER_OUTPUT_FILE_VALUE;
     			return false;
     		}
@@ -63,7 +63,7 @@ bool CArgumentParser::ParseArguments()
         }
     	if(strncmp(ch_argv[nCnt],"-e",2)==0){
     		if(nCnt+1>=n_argc){
-    			Error("argument index out ob bounds '-e'.");
+    			Error("argument index out of bounds '-e'.");
                 m_shErrorCode = ERR_ARG_ILLEGAL_PARAMETER_ENDIAN_VALUE;
     			return false;
     		}
@@ -84,12 +84,12 @@ bool CArgumentParser::ParseArguments()
         }
     	if(strncmp(ch_argv[nCnt],"-n",2)==0){
     		if(nCnt+1>=n_argc){
-    			Error("argument index out ob bounds '-n'.");
+    			Error("argument index out of bounds '-n'.");
                 m_shErrorCode = ERR_ARG_ILLEGAL_PARAMETER_FILEVERSION_VALUE;
     			return false;
     		}
             if(atoi(ch_argv[nCnt+1])==0){
-                Error("argument not digit");
+                Error("File version must be numeric value,and version value has must 1.0 or later");
                 m_shErrorCode = ERR_ARG_NOT_DIGIT_PARAMETER_FILEVERSION_VALUE;
                 return false;
             }
@@ -107,7 +107,7 @@ bool CArgumentParser::ParseArguments()
         }
     	if(strncmp(ch_argv[nCnt],"-H",2)==0){
     		if(nCnt+1>=n_argc){
-    			Error("argument index out ob bounds '-H'.");
+    			Error("argument index out of bounds '-H'.");
                 m_shErrorCode = ERR_ARG_ILLEGAL_PARAMETER_OUTPUT_FILE_VALUE;
     			return false;
     		}
@@ -117,7 +117,7 @@ bool CArgumentParser::ParseArguments()
         }
     	if(strncmp(ch_argv[nCnt],"-E",2)==0){
     		if(nCnt+1>=n_argc){
-    			Error("argument index out ob bounds '-E'.");
+    			Error("argument index out of bounds '-E'.");
                 m_shErrorCode = ERR_ARG_ILLEGAL_PARAMETER_OUTPUT_FILE_VALUE;
     			return false;
     		}

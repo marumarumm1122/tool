@@ -53,8 +53,5 @@
     <ClCompile Include="..\tools\ToolInvoker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\tools\Error.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

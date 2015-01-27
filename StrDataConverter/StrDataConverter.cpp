@@ -3,8 +3,10 @@
 
 #include "stdafx.h"
 #include "Tool.h"
+#include <iostream>
 
-int _tmain(int argc, char* argv[])
+using namespace std;
+int main(int argc, char* argv[])
 {
     CTool theTool(argc,argv);
 

@@ -90,7 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\tools\ArgumentParser.cpp" />
-    <ClCompile Include="..\tools\Error.cpp" />
     <ClCompile Include="..\tools\Tool.cpp" />
     <ClCompile Include="..\tools\ToolInvoker.cpp" />
     <ClCompile Include="stdafx.cpp" />
