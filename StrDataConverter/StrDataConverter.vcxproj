@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tools\ArgumentParser.h" />
+    <ClInclude Include="..\tools\Commons.h" />
     <ClInclude Include="..\tools\Error.h" />
     <ClInclude Include="..\tools\Tool.h" />
     <ClInclude Include="..\tools\ToolInvoker.h" />
