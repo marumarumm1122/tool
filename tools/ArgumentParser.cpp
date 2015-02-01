@@ -36,6 +36,10 @@ bool CArgumentParser::ArgumentCheck()
         m_shErrorCode = ERR_ARG_REQUIRED_PARAMETER_FILEVERSION;
         return false;
     }
+    if(m_chCheckArgs[eARGUMENT_FILE_SCHEMA_COMMAND]==NULL ){
+        m_shErrorCode = ERR_ARG_REQUIRED_PARAMETER_FILESCHEMA;
+        return false;
+    }
 	return true;
 }
 bool CArgumentParser::ParseArguments()
@@ -59,6 +63,16 @@ bool CArgumentParser::ParseArguments()
     		}
     	    m_chCheckArgs[eARGUMENT_OUTPUT_FILE_COMMAND] = ch_argv[nCnt];
     	    m_chCheckArgs[eARGUMENT_OUTPUT_FILE_DATA] = ch_argv[++nCnt];
+    	    continue;
+        }
+        if(strncmp(ch_argv[nCnt],"-s",2)==0){
+    		if(nCnt+1>=n_argc){
+    			Error("argument index out of bounds '-s'.");
+                m_shErrorCode = ERR_ARG_ILLEGAL_PARAMETER_OUTPUT_FILE_VALUE;
+    			return false;
+    		}
+    	    m_chCheckArgs[eARGUMENT_FILE_SCHEMA_COMMAND] = ch_argv[nCnt];
+    	    m_chCheckArgs[eARGUMENT_FILE_SCHEMA_DATA] = ch_argv[++nCnt];
     	    continue;
         }
     	if(strncmp(ch_argv[nCnt],"-e",2)==0){
@@ -132,15 +146,17 @@ bool CArgumentParser::ParseArguments()
 void CArgumentParser::Usage()
 {
 #if defined(_WIN32)
-    printf( "usage: StrDataConverter.exe -f <input> -o <output> -e <byte order> -n <file version> -H <output header name> -E <output enum name>\n" );
+    printf( "usage: StrDataConverter.exe -f <input> -o <output> -s <schema> -e <byte order> -n <file version> -H <output header name> -E <output enum name>\n" );
 #else   // defined(_WIN32)
-    printf("usage: StrDataConverter.bin -f <input> -o <output> -e <byte order> -n <file version> -H <output header name> -E <output enum name>\n" );
+    printf("usage: StrDataConverter.bin -f <input> -o <output> -s <schema> -e <byte order> -n <file version> -H <output header name> -E <output enum name>\n" );
 #endif  // defined(_WIN32)
-    printf( "-f : input filename\n" );
-    printf( "-o : output filename\n" );
-    printf( "-e : byte order(be or le) be by default\n" );
+    printf( "-f : input filename (required)\n" );
+    printf( "-o : output filename (required)\n" );
+    printf( "-s : schema filename (required)\n" );
+    
+    printf( "-e : byte order(be or le) (required)\n" );
     printf( "-v : version\n" );
-    printf( "-n : file version\n");
+    printf( "-n : file version (required)\n");
     printf( "-h : help\n");
     printf( "-H : output header name\n");
     printf( "-E : output enum name\n");
