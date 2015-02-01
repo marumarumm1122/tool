@@ -1,0 +1,1 @@
+./CharacterDataConverter.bin -f character.csv -o character_data.bin -e le -n 1.0 -s character_schema.txt

@@ -1,5 +1,5 @@
 CXX = g++
-TARGET = StrDataConverter.bin
+TARGET = CharacterDataConverter.bin
 CXXFLAGS = -Wall -O2 -pipe
 SRCS = Main.cpp tools/Tool.cpp tools/ToolInvoker.cpp tools/ArgumentParser.cpp
 OBJS := $(SRCS:.cpp=.o)
