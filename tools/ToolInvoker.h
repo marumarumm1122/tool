@@ -71,6 +71,7 @@ private:
 
 	CToolInvoker():
     m_nInputLine(0),
+	vInputBuff(NULL),
     m_nRecordSize(0),
     m_nRecordColumnSize(0),
     m_shErrorCode(0){}
@@ -80,7 +81,8 @@ public:
 		m_nLine(0),
 		m_nCount(0),
     m_nInputLine(0),
-    m_nRecordSize(0),
+	vInputBuff(NULL),
+	m_nRecordSize(0),
     m_nRecordColumnSize(0),
 		m_shErrorCode(0)
 		{

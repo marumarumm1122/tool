@@ -555,8 +555,8 @@ bool CToolInvoker::LoadMemory()
         if(vInputBuff==NULL){
             vInputBuff = malloc(m_nRecordSize);
         }else{
-            vInputBuff = realloc(vInputBuff,(m_nInputLine+1)*m_nRecordSize);
-            //realloc(vInputBuff,(m_nInputLine+1)*m_nRecordSize);
+			vInputBuff = realloc(vInputBuff, (m_nInputLine + 1)*m_nRecordSize);
+
         }
         SplitCanma(ch_read,m_nInputLine*m_nRecordSize);
         m_nInputLine++;
