@@ -41,9 +41,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\Tool\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\Tool\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -81,18 +83,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\tools\ArgumentParser.h" />
-    <ClInclude Include="..\tools\Commons.h" />
-    <ClInclude Include="..\tools\Error.h" />
-    <ClInclude Include="..\tools\Tool.h" />
-    <ClInclude Include="..\tools\ToolInvoker.h" />
+    <ClInclude Include="..\Tool\Include\ArgumentParser.h" />
+    <ClInclude Include="..\Tool\Include\Commons.h" />
+    <ClInclude Include="..\Tool\Include\Error.h" />
+    <ClInclude Include="..\Tool\Include\Tool.h" />
+    <ClInclude Include="..\Tool\Include\ToolInvoker.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\tools\ArgumentParser.cpp" />
-    <ClCompile Include="..\tools\Tool.cpp" />
-    <ClCompile Include="..\tools\ToolInvoker.cpp" />
+    <ClCompile Include="..\Tool\Source\ArgumentParser.cpp" />
+    <ClCompile Include="..\Tool\Source\Tool.cpp" />
+    <ClCompile Include="..\Tool\Source\ToolInvoker.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="StrDataConverter.cpp" />
   </ItemGroup>

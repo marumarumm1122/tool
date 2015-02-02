@@ -24,19 +24,19 @@
     <ClInclude Include="targetver.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ArgumentParser.h">
+    <ClInclude Include="..\Tool\Include\ArgumentParser.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\Tool.h">
+    <ClInclude Include="..\Tool\Include\Commons.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\ToolInvoker.h">
+    <ClInclude Include="..\Tool\Include\Error.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\Error.h">
+    <ClInclude Include="..\Tool\Include\Tool.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\tools\Commons.h">
+    <ClInclude Include="..\Tool\Include\ToolInvoker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,13 +47,13 @@
     <ClCompile Include="StrDataConverter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\tools\ArgumentParser.cpp">
+    <ClCompile Include="..\Tool\Source\ArgumentParser.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\tools\Tool.cpp">
+    <ClCompile Include="..\Tool\Source\Tool.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\tools\ToolInvoker.cpp">
+    <ClCompile Include="..\Tool\Source\ToolInvoker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
