@@ -7,42 +7,46 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E959013C1A7E794300851802 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E959013B1A7E794300851802 /* main.cpp */; };
-		E959013E1A7E794300851802 /* tool.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E959013D1A7E794300851802 /* tool.1 */; };
-		E95901511A7E795400851802 /* ArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E95901451A7E795400851802 /* ArgumentParser.cpp */; };
-		E95901541A7E795400851802 /* Tool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E959014B1A7E795400851802 /* Tool.cpp */; };
-		E95901561A7E795400851802 /* ToolInvoker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E959014E1A7E795400851802 /* ToolInvoker.cpp */; };
+		E9D7D17D1A8005C000DC2BA9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9D7D17C1A8005C000DC2BA9 /* main.cpp */; };
+		E9D7D17F1A8005C100DC2BA9 /* CharacterDataConverter.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E9D7D17E1A8005C000DC2BA9 /* CharacterDataConverter.1 */; };
+		E9D7D1831A8005C800DC2BA9 /* ArgumentParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9D7D15F1A80035B00DC2BA9 /* ArgumentParser.cpp */; };
+		E9D7D1841A8005C800DC2BA9 /* Tool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9D7D1601A80035B00DC2BA9 /* Tool.cpp */; };
+		E9D7D1851A8005C800DC2BA9 /* ToolInvoker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9D7D1611A80035B00DC2BA9 /* ToolInvoker.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E95901361A7E794300851802 /* CopyFiles */ = {
+		E9D7D1781A8005C000DC2BA9 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				E959013E1A7E794300851802 /* tool.1 in CopyFiles */,
+				E9D7D17F1A8005C100DC2BA9 /* CharacterDataConverter.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E95901381A7E794300851802 /* tool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tool; sourceTree = BUILT_PRODUCTS_DIR; };
 		E959013B1A7E794300851802 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E959013D1A7E794300851802 /* tool.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = tool.1; sourceTree = "<group>"; };
-		E95901451A7E795400851802 /* ArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArgumentParser.cpp; sourceTree = "<group>"; };
-		E95901461A7E795400851802 /* ArgumentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArgumentParser.h; sourceTree = "<group>"; };
-		E95901481A7E795400851802 /* Commons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Commons.h; sourceTree = "<group>"; };
-		E95901491A7E795400851802 /* Error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Error.h; sourceTree = "<group>"; };
-		E959014B1A7E795400851802 /* Tool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tool.cpp; sourceTree = "<group>"; };
-		E959014C1A7E795400851802 /* Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tool.h; sourceTree = "<group>"; };
-		E959014E1A7E795400851802 /* ToolInvoker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToolInvoker.cpp; sourceTree = "<group>"; };
-		E959014F1A7E795400851802 /* ToolInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolInvoker.h; sourceTree = "<group>"; };
+		E9D7D1591A80035B00DC2BA9 /* ArgumentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArgumentParser.h; sourceTree = "<group>"; };
+		E9D7D15A1A80035B00DC2BA9 /* Commons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Commons.h; sourceTree = "<group>"; };
+		E9D7D15B1A80035B00DC2BA9 /* Error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Error.h; sourceTree = "<group>"; };
+		E9D7D15C1A80035B00DC2BA9 /* Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tool.h; sourceTree = "<group>"; };
+		E9D7D15D1A80035B00DC2BA9 /* ToolInvoker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolInvoker.h; sourceTree = "<group>"; };
+		E9D7D15F1A80035B00DC2BA9 /* ArgumentParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArgumentParser.cpp; sourceTree = "<group>"; };
+		E9D7D1601A80035B00DC2BA9 /* Tool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tool.cpp; sourceTree = "<group>"; };
+		E9D7D1611A80035B00DC2BA9 /* ToolInvoker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ToolInvoker.cpp; sourceTree = "<group>"; };
+		E9D7D16B1A80048700DC2BA9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		E9D7D16D1A80048700DC2BA9 /* CharacterDataConverter.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CharacterDataConverter.1; sourceTree = "<group>"; };
+		E9D7D17A1A8005C000DC2BA9 /* CharacterDataConverter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CharacterDataConverter; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9D7D17C1A8005C000DC2BA9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		E9D7D17E1A8005C000DC2BA9 /* CharacterDataConverter.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CharacterDataConverter.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E95901351A7E794300851802 /* Frameworks */ = {
+		E9D7D1771A8005C000DC2BA9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -55,8 +59,10 @@
 		E959012F1A7E794300851802 = {
 			isa = PBXGroup;
 			children = (
-				E95901441A7E795400851802 /* tools */,
+				E9D7D1571A80035B00DC2BA9 /* Tool */,
 				E959013A1A7E794300851802 /* tool */,
+				E9D7D16A1A80048700DC2BA9 /* CharacterDataConverter */,
+				E9D7D17B1A8005C000DC2BA9 /* CharacterDataConverter */,
 				E95901391A7E794300851802 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,7 +70,7 @@
 		E95901391A7E794300851802 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E95901381A7E794300851802 /* tool */,
+				E9D7D17A1A8005C000DC2BA9 /* CharacterDataConverter */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,41 +84,75 @@
 			path = tool;
 			sourceTree = "<group>";
 		};
-		E95901441A7E795400851802 /* tools */ = {
+		E9D7D1571A80035B00DC2BA9 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
-				E95901451A7E795400851802 /* ArgumentParser.cpp */,
-				E95901461A7E795400851802 /* ArgumentParser.h */,
-				E95901481A7E795400851802 /* Commons.h */,
-				E95901491A7E795400851802 /* Error.h */,
-				E959014B1A7E795400851802 /* Tool.cpp */,
-				E959014C1A7E795400851802 /* Tool.h */,
-				E959014E1A7E795400851802 /* ToolInvoker.cpp */,
-				E959014F1A7E795400851802 /* ToolInvoker.h */,
+				E9D7D1581A80035B00DC2BA9 /* Include */,
+				E9D7D15E1A80035B00DC2BA9 /* Source */,
 			);
-			name = tools;
-			path = ../../tools;
+			name = Tool;
+			path = ../../Tool;
+			sourceTree = "<group>";
+		};
+		E9D7D1581A80035B00DC2BA9 /* Include */ = {
+			isa = PBXGroup;
+			children = (
+				E9D7D1591A80035B00DC2BA9 /* ArgumentParser.h */,
+				E9D7D15A1A80035B00DC2BA9 /* Commons.h */,
+				E9D7D15B1A80035B00DC2BA9 /* Error.h */,
+				E9D7D15C1A80035B00DC2BA9 /* Tool.h */,
+				E9D7D15D1A80035B00DC2BA9 /* ToolInvoker.h */,
+			);
+			path = Include;
+			sourceTree = "<group>";
+		};
+		E9D7D15E1A80035B00DC2BA9 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				E9D7D15F1A80035B00DC2BA9 /* ArgumentParser.cpp */,
+				E9D7D1601A80035B00DC2BA9 /* Tool.cpp */,
+				E9D7D1611A80035B00DC2BA9 /* ToolInvoker.cpp */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		E9D7D16A1A80048700DC2BA9 /* CharacterDataConverter */ = {
+			isa = PBXGroup;
+			children = (
+				E9D7D16B1A80048700DC2BA9 /* main.cpp */,
+				E9D7D16D1A80048700DC2BA9 /* CharacterDataConverter.1 */,
+			);
+			path = CharacterDataConverter;
+			sourceTree = "<group>";
+		};
+		E9D7D17B1A8005C000DC2BA9 /* CharacterDataConverter */ = {
+			isa = PBXGroup;
+			children = (
+				E9D7D17C1A8005C000DC2BA9 /* main.cpp */,
+				E9D7D17E1A8005C000DC2BA9 /* CharacterDataConverter.1 */,
+			);
+			path = CharacterDataConverter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E95901371A7E794300851802 /* tool */ = {
+		E9D7D1791A8005C000DC2BA9 /* CharacterDataConverter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E95901411A7E794300851802 /* Build configuration list for PBXNativeTarget "tool" */;
+			buildConfigurationList = E9D7D1801A8005C100DC2BA9 /* Build configuration list for PBXNativeTarget "CharacterDataConverter" */;
 			buildPhases = (
-				E95901341A7E794300851802 /* Sources */,
-				E95901351A7E794300851802 /* Frameworks */,
-				E95901361A7E794300851802 /* CopyFiles */,
-				E95901581A7E7E9700851802 /* ShellScript */,
+				E9D7D1761A8005C000DC2BA9 /* Sources */,
+				E9D7D1771A8005C000DC2BA9 /* Frameworks */,
+				E9D7D1781A8005C000DC2BA9 /* CopyFiles */,
+				E9D7D1861A80060B00DC2BA9 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = tool;
-			productName = tool;
-			productReference = E95901381A7E794300851802 /* tool */;
+			name = CharacterDataConverter;
+			productName = CharacterDataConverter;
+			productReference = E9D7D17A1A8005C000DC2BA9 /* CharacterDataConverter */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -136,36 +176,37 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E95901371A7E794300851802 /* tool */,
+				E9D7D1791A8005C000DC2BA9 /* CharacterDataConverter */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		E95901581A7E7E9700851802 /* ShellScript */ = {
+		E9D7D1861A80060B00DC2BA9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/../../../tool/ConvertEnv/src/character_schema.txt",
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp $BUILT_PRODUCTS_DIR/tool $SRCROOT/build";
+			shellScript = "env > env.txt\ncp $BUILT_PRODUCTS_DIR/$PRODUCT_NAME $SRCROOT/tool/\ncp $SRCROOT/tool/$PRODUCT_NAME $SRCROOT/tool/../../../ConvertEnv/bin/";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E95901341A7E794300851802 /* Sources */ = {
+		E9D7D1761A8005C000DC2BA9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E95901561A7E795400851802 /* ToolInvoker.cpp in Sources */,
-				E95901541A7E795400851802 /* Tool.cpp in Sources */,
-				E959013C1A7E794300851802 /* main.cpp in Sources */,
-				E95901511A7E795400851802 /* ArgumentParser.cpp in Sources */,
+				E9D7D1831A8005C800DC2BA9 /* ArgumentParser.cpp in Sources */,
+				E9D7D1841A8005C800DC2BA9 /* Tool.cpp in Sources */,
+				E9D7D1851A8005C800DC2BA9 /* ToolInvoker.cpp in Sources */,
+				E9D7D17D1A8005C000DC2BA9 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,18 +283,20 @@
 			};
 			name = Release;
 		};
-		E95901421A7E794300851802 /* Debug */ = {
+		E9D7D1811A8005C100DC2BA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		E95901431A7E794300851802 /* Release */ = {
+		E9D7D1821A8005C100DC2BA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -270,11 +313,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E95901411A7E794300851802 /* Build configuration list for PBXNativeTarget "tool" */ = {
+		E9D7D1801A8005C100DC2BA9 /* Build configuration list for PBXNativeTarget "CharacterDataConverter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E95901421A7E794300851802 /* Debug */,
-				E95901431A7E794300851802 /* Release */,
+				E9D7D1811A8005C100DC2BA9 /* Debug */,
+				E9D7D1821A8005C100DC2BA9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

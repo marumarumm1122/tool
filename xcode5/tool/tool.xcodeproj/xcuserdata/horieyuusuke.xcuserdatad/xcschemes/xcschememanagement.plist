@@ -4,8 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>CharacterDataConverter.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>tool.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
@@ -13,6 +20,16 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>E95901371A7E794300851802</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E9D7D1681A80048700DC2BA9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E9D7D1791A8005C000DC2BA9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
