@@ -1,4 +1,4 @@
-#include "tools/Tool.h"
+#include "Tool.h"
 
 int main(int argc, char **argv)
 {

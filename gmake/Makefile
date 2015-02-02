@@ -1,11 +1,12 @@
 CXX = g++
-TARGET = CharacterDataConverter.bin
+CPPFLAGS=-I../Tool/Include
+TARGET = ../ConvertEnv/bin/CharacterDataConverter.bin
 CXXFLAGS = -Wall -O2 -pipe
-SRCS = Main.cpp tools/Tool.cpp tools/ToolInvoker.cpp tools/ArgumentParser.cpp
+SRCS = Main.cpp ../Tool/Source/Tool.cpp ../Tool/Source/ToolInvoker.cpp ../Tool/Source/ArgumentParser.cpp
 OBJS := $(SRCS:.cpp=.o)
 
 $(TARGET): $(OBJS)
-	$(CXX) -o $@ $(OBJS)
+	$(CXX) $(CPPFLAGS) -o $@ $(OBJS)
 
 clean:
 	rm -f $(TARGET) $(OBJS)
