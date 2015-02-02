@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E9D7D1681A80048700DC2BA9"
+               BlueprintIdentifier = "E9D7D1791A8005C000DC2BA9"
                BuildableName = "CharacterDataConverter"
                BlueprintName = "CharacterDataConverter"
                ReferencedContainer = "container:tool.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E9D7D1681A80048700DC2BA9"
+            BlueprintIdentifier = "E9D7D1791A8005C000DC2BA9"
             BuildableName = "CharacterDataConverter"
             BlueprintName = "CharacterDataConverter"
             ReferencedContainer = "container:tool.xcodeproj">
@@ -51,12 +51,18 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E9D7D1681A80048700DC2BA9"
+            BlueprintIdentifier = "E9D7D1791A8005C000DC2BA9"
             BuildableName = "CharacterDataConverter"
             BlueprintName = "CharacterDataConverter"
             ReferencedContainer = "container:tool.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-f $SRCROOT/tool/../../../ConvertEnv/src/character.csv -o $SRCROOT/tool/../../../ConvertEnv/out/le/character_data.bin -e le -s $SRCROOT/tool/../../../ConvertEnv/src/character_schema.txt -n 2"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -69,7 +75,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E9D7D1681A80048700DC2BA9"
+            BlueprintIdentifier = "E9D7D1791A8005C000DC2BA9"
             BuildableName = "CharacterDataConverter"
             BlueprintName = "CharacterDataConverter"
             ReferencedContainer = "container:tool.xcodeproj">
