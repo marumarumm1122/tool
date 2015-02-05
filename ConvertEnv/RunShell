@@ -1,1 +1,2 @@
-./CharacterDataConverter.bin -f character.csv -o character_data.bin -e le -n 1.0 -s character_schema.txt
+./bin/CharacterDataConverter.bin -f ./src/character.csv -o ./out/le/character_data.bin -e le -n 1.0 -s ./src/character_schema.txt
+./bin/CharacterDataConverter.bin -f ./src/character.csv -o ./out/be/character_data.bin -e be -n 1.0 -s ./src/character_schema.txt
