@@ -41,6 +41,7 @@ public:
         return ush_inteli;
     }
 private:
+    
     unsigned short ush_id;
     unsigned short ush_no;
     unsigned short ush_nameId;
@@ -73,6 +74,8 @@ int main(int argc, char **argv){
     }
     
     void *p_buff = malloc(n_fsize);
+    unsigned short version =0;
+    fread( &version,2,1,fp );
     fread( p_buff,n_fsize,1,fp );
     fclose(fp);
     
