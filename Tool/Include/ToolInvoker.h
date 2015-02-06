@@ -11,9 +11,10 @@ private:
     static const char *WORK_FILE_EXT_CONST_VALUE;
 	
     enum eCOLUMN_TYPE{
-		eCOLUMN_TYPE_START = 0,
+		eCOLUMN_TYPE_START = -1,
 
         eCOLUMN_TYPE_NONE = eCOLUMN_TYPE_START,
+        eCOLUMN_TYPE_DUMMY ,
         eCOLUMN_TYPE_USHORT,
         eCOLUMN_TYPE_BYTE,
         eCOLUMN_TYPE_UINT,

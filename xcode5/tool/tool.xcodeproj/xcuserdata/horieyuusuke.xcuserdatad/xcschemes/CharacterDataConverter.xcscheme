@@ -59,7 +59,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-f $SRCROOT/tool/../../../ConvertEnv/src/character.csv -o $SRCROOT/tool/../../../ConvertEnv/out/be/character_data.bin -e be -s $SRCROOT/tool/../../../ConvertEnv/src/character_schema.txt -n 2"
+            argument = "-f $SRCROOT/tool/../../../ConvertEnv/src/character.csv -o $SRCROOT/tool/../../../ConvertEnv/out/le/character_data.bin -e le -s $SRCROOT/tool/../../../ConvertEnv/src/character_schema.txt -n 2"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

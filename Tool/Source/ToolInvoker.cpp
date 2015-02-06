@@ -473,6 +473,9 @@ bool CToolInvoker::MakeSchema()
         }else if(strncmp(ch_read,"BYTE",4)==0){
             n_size = eCOLUMN_TYPE_BYTE;
             m_nRecordSize+=1;
+        }else if(strncmp(ch_read,"DUMMY",5)==0){
+            n_size = eCOLUMN_TYPE_DUMMY;
+            m_nRecordSize+=1;
         }else if(strncmp(ch_read,"UINT",4)==0){
             n_size = eCOLUMN_TYPE_UINT;
             m_nRecordSize+=4;
@@ -523,6 +526,13 @@ void CToolInvoker::SplitCanma(char *ch_in,int startByte)
             case eCOLUMN_TYPE_BYTE:
             {
                 char ch = (char)atoi(ch_temp);
+                memcpy(ch_buff+nAppend,&ch,1);
+                nAppend+=1;
+                break;
+            }
+            case eCOLUMN_TYPE_DUMMY:
+            {
+                char ch = 0;
                 memcpy(ch_buff+nAppend,&ch,1);
                 nAppend+=1;
                 break;

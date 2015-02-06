@@ -48,6 +48,9 @@ private:
     unsigned char ch_charaCategory;
     unsigned char ch_growType;
     unsigned char ch_actionType;
+    unsigned char dummy1;
+    unsigned char dummy2;
+    unsigned char dummy3;
     unsigned int n_hp;
     unsigned int n_mp;
     unsigned short ush_attack;
@@ -80,17 +83,20 @@ int main(int argc, char **argv){
     fclose(fp);
     
     S_LINK_DATA_HEADER *s_asHeader = reinterpret_cast<S_LINK_DATA_HEADER*>(p_buff) ;
-    printf("id = %d \n",s_asHeader->GetId());
-    printf("no = %d \n",s_asHeader->GetNo());
-    printf("nameid = %d \n",s_asHeader->GetNameid());
-    printf("characategory = %d \n",s_asHeader->GetCharaCategory());
-    printf("growtype = %d \n",s_asHeader->GetGrowType());
-    printf("actiontype = %d \n",s_asHeader->GetActionType());
-    printf("hp = %d \n",s_asHeader->GetHP());
-    printf("mp = %d \n",s_asHeader->GetMP());
-    printf("attack = %d \n",s_asHeader->GetAttack());
-    printf("defense = %d \n",s_asHeader->GetDefense());
-    printf("rapid = %d \n",s_asHeader->GetRapid());
-    printf("inteli = %d \n",s_asHeader->GetInteli());
+    printf("sizeof=%lu\n",sizeof(S_LINK_DATA_HEADER));
+    for(int nCnt = 0;nCnt < 3;nCnt++){
+        printf("id = %d \n",s_asHeader[nCnt].GetId());
+        printf("no = %d \n",s_asHeader[nCnt].GetNo());
+        printf("nameid = %d \n",s_asHeader[nCnt].GetNameid());
+        printf("characategory = %d \n",s_asHeader[nCnt].GetCharaCategory());
+        printf("growtype = %d \n",s_asHeader[nCnt].GetGrowType());
+        printf("actiontype = %d \n",s_asHeader[nCnt].GetActionType());
+        printf("hp = %d \n",s_asHeader[nCnt].GetHP());
+        printf("mp = %d \n",s_asHeader[nCnt].GetMP());
+        printf("attack = %d \n",s_asHeader[nCnt].GetAttack());
+        printf("defense = %d \n",s_asHeader[nCnt].GetDefense());
+        printf("rapid = %d \n",s_asHeader[nCnt].GetRapid());
+        printf("inteli = %d \n",s_asHeader[nCnt].GetInteli());
+    }
     return 0;
 }
