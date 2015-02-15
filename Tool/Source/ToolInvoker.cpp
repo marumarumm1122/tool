@@ -136,6 +136,7 @@ bool CToolInvoker::MakeStringIdList()
                         memcpy(p_stringConstList+nLastConstIdx, ch_read, nCnt);
                         nLastConstIdx += nCnt;
                         p_stringConstList[nLastConstIdx] = '\n';
+                        p_stringConstList[nLastConstIdx+1] = '\0';
                         nLastConstIdx++;
                         nCnt++;
                         nLastCnt = nCnt;
@@ -144,7 +145,7 @@ bool CToolInvoker::MakeStringIdList()
                     }
                     case eCOLUMN_COUNTER_ID:
                     {
-                        n_stringIdList = reinterpret_cast<int*>(realloc(n_stringIdList, sizeof(int)*nColumnCounter+1));
+                        n_stringIdList = reinterpret_cast<int*>(realloc(n_stringIdList, sizeof(int)*(nColumnCounter+2)));
                         n_stringIdList[nColumnCounter] = atoi(ch_read+nLastCnt);
                         nColumnCounter++;
                         nCnt++;
@@ -162,7 +163,7 @@ bool CToolInvoker::MakeStringIdList()
                         }
                         memcpy(p_stringDataList+nLastDataIdx, ch_read+nLastCnt, nCnt-nLastCnt);
                         nLastDataIdx += nCnt-nLastCnt;
-                        
+                        p_stringDataList[nLastDataIdx+1] = '\0';
                         ec = eCOLUMN_COUNTER_END;
                         break;
                     }
