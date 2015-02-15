@@ -1,2 +1,2 @@
-./bin/CharacterDataConverter.bin -f ./src/character.csv -o ./out/le/character_data.bin -e le -n 1.0 -s ./src/character_schema.txt
-./bin/CharacterDataConverter.bin -f ./src/character.csv -o ./out/be/character_data.bin -e be -n 1.0 -s ./src/character_schema.txt
+./bin/CharacterDataConverter.bin -f ./src/character.csv -o ./out/le/character_data.bin -e le -n 1.0 -s ./src/character_schema.txt -I ./src/string.csv -H ./out/common/S_LINK_DATA_STRING_HEADER.h -E eLINK_DATA_STRING_HEADER
+./bin/CharacterDataConverter.bin -f ./src/character.csv -o ./out/be/character_data.bin -e be -n 1.0 -s ./src/character_schema.txt -I ./src/string.csv -H ./out/common/S_LINK_DATA_STRING_HEADER.h -E eLINK_DATA_STRING_HEADER

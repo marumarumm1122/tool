@@ -41,11 +41,16 @@ private:
     // １レコードのカラム数.
     int m_nRecordColumnSize;
     
-    // １レコードの各バイト数
+    // １レコードの各バイト数.
     eCOLUMN_TYPE m_nBytesOfColumns[64];
 
+    // 出力header用のデータサイズ.
+    //int m_nHeaderSize;
+    
 	short m_shErrorCode;
 
+    bool MakeStringHeader();
+    bool MakeStringIdList();
 	bool Read();
 	bool Convert();
 	bool LineCount();
@@ -75,6 +80,7 @@ private:
 	vInputBuff(NULL),
     m_nRecordSize(0),
     m_nRecordColumnSize(0),
+    //m_nHeaderSize(0),
     m_shErrorCode(0){}
 public:
 	CToolInvoker(CArgumentParser *parser):
@@ -85,6 +91,7 @@ public:
 	vInputBuff(NULL),
 	m_nRecordSize(0),
     m_nRecordColumnSize(0),
+    //m_nHeaderSize(0),
 		m_shErrorCode(0)
 		{
             for(int nCnt=0;nCnt<64;nCnt++){

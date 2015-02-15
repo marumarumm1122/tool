@@ -59,7 +59,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-f $SRCROOT/tool/../../../ConvertEnv/src/character.csv -o $SRCROOT/tool/../../../ConvertEnv/out/le/character_data.bin -e le -s $SRCROOT/tool/../../../ConvertEnv/src/character_schema.txt -n 2"
+            argument = "-f $SRCROOT/tool/../../../ConvertEnv/src/character.csv -o $SRCROOT/tool/../../../ConvertEnv/out/le/character_data.bin -e le -s $SRCROOT/tool/../../../ConvertEnv/src/character_schema.txt -n 2 -I $SRCROOT/tool/../../../ConvertEnv/src/string.csv -H $SRCROOT/tool/../../../ConvertEnv/out/common/S_LINK_DATA_STRING_HEADER.h -E eLINK_DATA_STRING_HEADER"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

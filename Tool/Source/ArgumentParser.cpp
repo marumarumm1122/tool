@@ -40,6 +40,12 @@ bool CArgumentParser::ArgumentCheck()
         m_shErrorCode = ERR_ARG_REQUIRED_PARAMETER_FILESCHEMA;
         return false;
     }
+    if(m_chCheckArgs[eARGUMENT_OUTPUT_HEADER_NAME_COMMAND]!=NULL){
+        if(m_chCheckArgs[eARGUMENT_FILE_STRING_COMMAND]==NULL){
+            m_shErrorCode = ERR_ARG_REQUIRED_PARAMETER_STRINGFILE;
+            return false;
+        }
+    }
 	return true;
 }
 bool CArgumentParser::ParseArguments()
@@ -139,6 +145,16 @@ bool CArgumentParser::ParseArguments()
     	    m_chCheckArgs[eARGUMENT_OUTPUT_ENUM_NAME_DATA] = ch_argv[++nCnt];
     	    continue;
         }
+    	if(strncmp(ch_argv[nCnt],"-I",2)==0){
+    		if(nCnt+1>=n_argc){
+    			Error("argument index out of bounds '-I'.");
+                m_shErrorCode = ERR_ARG_ILLEGAL_PARAMETER_OUTPUT_FILE_VALUE;
+    			return false;
+    		}
+    	    m_chCheckArgs[eARGUMENT_FILE_STRING_COMMAND] = ch_argv[nCnt];
+    	    m_chCheckArgs[eARGUMENT_FILE_STRING_DATA] = ch_argv[++nCnt];
+    	    continue;
+        }
 
     }
 	return true;
@@ -160,6 +176,7 @@ void CArgumentParser::Usage()
     printf( "-h : help\n");
     printf( "-H : output header name\n");
     printf( "-E : output enum name\n");
+    printf( "-I : input string filename\n");
 }
 void CArgumentParser::Error(const char *ch_message)
 {

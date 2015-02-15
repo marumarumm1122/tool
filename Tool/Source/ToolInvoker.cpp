@@ -19,6 +19,9 @@ namespace{
     // ワークファイル用.
     void *p_nbuffer = NULL;
     
+    int *n_stringIdList;
+    char *p_stringConstList;
+    char *p_stringDataList;
 }
 const char *CToolInvoker::CH_EXPORT_HEADER_FILE_NAME = "S_LINK_DATA_STRING_HEADER.h";
 const char *CToolInvoker::WORK_FILE_EXT_CONST_NAME = ".constn";
@@ -36,6 +39,39 @@ int CToolInvoker::Invoke()
         return 0;
     }
     
+    // 入力ファイルをオープンしてvoid*に格納していく.
+    if(!LoadInputFile()){
+        return m_shErrorCode;
+    }
+    
+    // 格納したバッファをファイルに書き出す.
+    if(!WriteInputBuffer()){
+        return m_shErrorCode;
+    }
+
+    // string header関連処理.
+    if(!MakeStringHeader()){
+        return m_shErrorCode;
+    }
+    
+    
+    return 0;
+}
+bool CToolInvoker::MakeStringHeader()
+{
+    char **ch_args = m_parser->GetParseArgs();
+    
+    if(ch_args[CArgumentParser::eARGUMENT_OUTPUT_HEADER_NAME_COMMAND]==NULL){
+        // ヘッダファイル指定がある場合のみ作る.
+        return true;
+    }
+    
+    // string入力ファイルをオープンして名前IDと位置のintリストを作る.
+    if(!MakeStringIdList()){
+        return false;
+    }
+    
+    
     // 入力ファイルをオープンして二つの一時ファイルに振り分ける.
     //if(!WriteWorkFile()){
     //    return m_shErrorCode;
@@ -47,31 +83,114 @@ int CToolInvoker::Invoke()
     //}
     
 	// 振り分けた一時ファイル二つ目を変換.
-    //if(!Convert()){
-    //    return m_shErrorCode;
-    //}
+    if(!Convert()){
+        return m_shErrorCode;
+    }
     
     // 出力ファイルに書き込む.
-    //if(!Write()){
-    //    return m_shErrorCode;
-    //}
-    
-    // 入力ファイルをオープンしてvoid*に格納していく.
-    if(!LoadInputFile()){
+    if(!Write()){
         return m_shErrorCode;
     }
     
-    // 格納したバッファをファイルに書き出す
-    if(!WriteInputBuffer()){
+    // 振り分けた一時ファイル一つ目をもとに定数用ヘッダファイルを書き出す.
+    if(!WriteHeaderFile()){
         return m_shErrorCode;
     }
-
-    // 振り分けた一時ファイル一つ目をもとに定数用ヘッダファイルを書き出す
-    //if(!WriteHeaderFile()){
-    //    return m_shErrorCode;
-    //}
     
-    return 0;
+    return true;
+}
+bool CToolInvoker::MakeStringIdList()
+{
+    char **ch_args = m_parser->GetParseArgs();
+    
+    FILE *fp;
+	FILEOPENANDERROR(fp, ch_args[CArgumentParser::eARGUMENT_FILE_STRING_DATA], "rb");
+    char ch_read[1024];
+    n_stringIdList = reinterpret_cast<int*>(malloc(sizeof(int)));
+    p_stringConstList = reinterpret_cast<char*>(malloc(sizeof(char)*1024));
+    p_stringDataList = reinterpret_cast<char*>(malloc(sizeof(char)*1024));
+    enum eCOLUMN_COUNTER{
+        eCOLUMN_COUNTER_CONST,
+        eCOLUMN_COUNTER_ID,
+        eCOLUMN_COUNTER_DATA,
+        eCOLUMN_COUNTER_END,
+    };
+    int nLastConstIdx = 0;
+    int nLastDataIdx = 0;
+    int nColumnCounter = 0;
+    while ( fgets(ch_read, 1024, fp) != NULL ) {
+        int nCnt = 0;
+        int nLastCnt = 0;
+        eCOLUMN_COUNTER ec = eCOLUMN_COUNTER_CONST;
+        while(nCnt < 1024){
+            if(ch_read[nCnt]==','||ch_read[nCnt]=='\0'){
+                switch (ec) {
+                    case eCOLUMN_COUNTER_CONST:
+                    {
+                        int nL = nLastConstIdx % 1024;
+                        int nC = nLastConstIdx / 1024;
+                        if(nL + nCnt+2 >= 1024){
+                            p_stringConstList = reinterpret_cast<char*>(realloc(p_stringConstList, sizeof(char)*1024*(nC+1)));
+                            
+                        }
+                        memcpy(p_stringConstList+nLastConstIdx, ch_read, nCnt);
+                        nLastConstIdx += nCnt;
+                        p_stringConstList[nLastConstIdx] = '\n';
+                        nLastConstIdx++;
+                        nCnt++;
+                        nLastCnt = nCnt;
+                        ec = eCOLUMN_COUNTER_ID;
+                        break;
+                    }
+                    case eCOLUMN_COUNTER_ID:
+                    {
+                        n_stringIdList = reinterpret_cast<int*>(realloc(n_stringIdList, sizeof(int)*nColumnCounter+1));
+                        n_stringIdList[nColumnCounter] = atoi(ch_read+nLastCnt);
+                        nColumnCounter++;
+                        nCnt++;
+                        nLastCnt = nCnt;
+                        ec = eCOLUMN_COUNTER_DATA;
+                        break;
+                    }
+                    case eCOLUMN_COUNTER_DATA:
+                    {
+                        int nL = nLastDataIdx % 1024;
+                        int nC = nLastDataIdx / 1024;
+                        if(nL + nCnt+2 >= 1024){
+                            p_stringDataList = reinterpret_cast<char*>(realloc(p_stringDataList, sizeof(char)*1024*(nC+1)));
+                            
+                        }
+                        memcpy(p_stringDataList+nLastDataIdx, ch_read+nLastCnt, nCnt-nLastCnt);
+                        nLastDataIdx += nCnt-nLastCnt;
+                        
+                        ec = eCOLUMN_COUNTER_END;
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
+            if(ec==eCOLUMN_COUNTER_END){
+                break;
+            }
+            nCnt++;
+        }
+        
+    }
+    fclose(fp);
+    
+    // 一時ファイル一つ目のメモリにstringデータをコピーする.
+    p_nbuffer = malloc(nLastConstIdx);
+    memcpy(p_nbuffer, p_stringConstList, nLastConstIdx);
+    
+    // 一時ファイル二つ目のメモリにstringデータをコピーする.
+    p_vbuffer = malloc(nLastDataIdx);
+    memcpy(p_vbuffer, p_stringDataList, nLastDataIdx);
+    
+    p_convertBuffer = malloc(nLastDataIdx+1);
+    m_nCount = nLastDataIdx;
+    
+    return true;
 }
 const char *CToolInvoker::GetHeaderFileName()
 {
@@ -86,44 +205,60 @@ void CToolInvoker::WriteEndLine(FILE *fp,int nLineCnt)
         fprintf(fp," = %s_START,\n",ch_enumName);
         return;
     }
-    fprintf(fp," ,\n");
+    fprintf(fp," = %d ,\n",n_stringIdList[nLineCnt]);
 }
 void CToolInvoker::GetIncludeHeaderName(char *ch_includeHeaderName,const char *headerFileName)
 {
-    size_t nMax = strlen(headerFileName);
-    int nCnt = (int)nMax-1;
-    while(nCnt>=0){
-        nCnt--;
-        if(headerFileName[nCnt]=='.'){
-            break;
+    {
+        size_t nMax = strlen(headerFileName);
+        int nCnt = (int)nMax-1;
+        int nLCnt = 0;
+        while(nCnt>=0){
+            nCnt--;
+            if(headerFileName[nCnt]=='.'){
+                nLCnt = nCnt;
+                break;
+            }
+            
         }
+        while(nCnt>=0){
+            nCnt--;
+            if(headerFileName[nCnt]=='/'
+//               ||headerFileName[nCnt]=='\¥'
+               ||headerFileName[nCnt]=='\\'){
+                nCnt++;
+                break;
+            }
+        }
+
+        if(nCnt<0){
+            ch_includeHeaderName = NULL;
+        }
+        strncpy(ch_includeHeaderName,headerFileName+nCnt,nLCnt - nCnt);
+        ch_includeHeaderName[nLCnt-nCnt] = '\0';
     }
-    if(nCnt<0){
-        ch_includeHeaderName = NULL;
-    }
-    strncpy(ch_includeHeaderName,headerFileName,nCnt);
-    ch_includeHeaderName[nCnt] = '\0';
 }
 void CToolInvoker::MakeHeaderData(char *ch_header,const char *chHeaderFileName,char *ch_includeHeaderName)
 {
     const char *ch_enumName = GetEnumName();
-    
-    sprintf(ch_header,"//\n//  %s\n//\n// This file was generated by Tool.\n// It is possibe to change only the enum name.\n#if !defined(__%s__)\n#define __%s__\n\nenum %s{\n\t%s_START = 0,\n\n"
+    sprintf(ch_header,"//\n//  %s\n//\n// This file was generated by Tool.\n// It is possibe to change only the enum name.\n#if !defined(__%s__)\n#define __%s__\n\nenum %s{\n\t%s_START = %d,\n\n"
             ,chHeaderFileName
             ,ch_includeHeaderName
             ,ch_includeHeaderName
             ,ch_enumName
             ,ch_enumName
+            ,n_stringIdList[0]
             );
 }
 void CToolInvoker::MakeFooterData(char *ch_footer,char *ch_includeHeaderName)
 {
     const char *ch_enumName = GetEnumName();
 
-    sprintf(ch_footer,"\n\t%s_NUM,\n\t%s_MAX = %s_NUM - 1,\n};\n\n#endif // !defined(__%s__)\n"
+    sprintf(ch_footer,"\n\t%s_NUM = %d,\n\t%s_MAX = %d,\n};\n\n#endif // !defined(__%s__)\n"
             ,ch_enumName
+            ,m_nLine
             ,ch_enumName
-            ,ch_enumName
+            ,n_stringIdList[m_nLine-1]
             ,ch_includeHeaderName
             );
 }
@@ -143,9 +278,9 @@ bool CToolInvoker::WriteHeaderFile()
 		return true;
 	}
 
-    if(!WorkFileRead()){
-        return false;
-    }
+    //if(!WorkFileRead()){
+    //    return false;
+    //}
     const char *chHeaderFileName = GetHeaderFileName();
     const char *ch_enumName = GetEnumName();
 
