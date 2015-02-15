@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LocalDebuggerCommandArguments>-f ../ConvertEnv/src/character.csv -o ../ConvertEnv/out/le/character_data.bin -e le -s ../ConvertEnv/src/character_schema.txt -n 2</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-f ../ConvertEnv/src/character.csv -o ../ConvertEnv/out/le/character_data.bin -e le -s ../ConvertEnv/src/character_schema.txt -n 2 -I ../ConvertEnv/src/string.csv -H ../ConvertEnv/out/common/S_LINK_DATA_STRING_HEADER.h -E eLINK_DATA_STRING_HEADER</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LocalDebuggerCommandArguments>-f ../ConvertEnv/src/character.csv -o ../ConvertEnv/out/le/character_data.bin -e le -s ../ConvertEnv/src/character_schema.txt -n 2</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-f ../ConvertEnv/src/character.csv -o ../ConvertEnv/out/le/character_data.bin -e le -s ../ConvertEnv/src/character_schema.txt -n 2 -I ../ConvertEnv/src/string.csv -H ../ConvertEnv/out/common/S_LINK_DATA_STRING_HEADER.h -E eLINK_DATA_STRING_HEADER</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
