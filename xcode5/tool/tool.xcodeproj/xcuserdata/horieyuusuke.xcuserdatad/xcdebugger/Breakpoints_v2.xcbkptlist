@@ -72,7 +72,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Tool/Source/ToolInvoker.cpp"
-            timestampString = "445688287.247432"
+            timestampString = "445689476.311016"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "158"
@@ -104,7 +104,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Tool/Source/ToolInvoker.cpp"
-            timestampString = "445688287.247432"
+            timestampString = "445689476.311016"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "482"
@@ -120,7 +120,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Tool/Source/ToolInvoker.cpp"
-            timestampString = "445688287.247432"
+            timestampString = "445689476.311016"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "513"
@@ -136,7 +136,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Tool/Source/ToolInvoker.cpp"
-            timestampString = "445688287.247432"
+            timestampString = "445689476.311016"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "292"
@@ -152,7 +152,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Tool/Source/ToolInvoker.cpp"
-            timestampString = "445688287.247432"
+            timestampString = "445689476.311016"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "244"
@@ -168,12 +168,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Tool/Source/ToolInvoker.cpp"
-            timestampString = "445688287.247432"
+            timestampString = "445689476.311016"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "209"
             endingLineNumber = "209"
             landmarkName = "CToolInvoker::WriteEndLine(FILE *fp,int nLineCnt)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Tool/Source/ToolInvoker.cpp"
+            timestampString = "445689253.885471"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "CToolInvoker::MakeStringIdList()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

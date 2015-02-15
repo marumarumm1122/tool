@@ -130,7 +130,7 @@ bool CToolInvoker::MakeStringIdList()
                         int nL = nLastConstIdx % 1024;
                         int nC = nLastConstIdx / 1024;
                         if(nL + nCnt+2 >= 1024){
-                            p_stringConstList = reinterpret_cast<char*>(realloc(p_stringConstList, sizeof(char)*1024*(nC+1)));
+                            p_stringConstList = reinterpret_cast<char*>(realloc(p_stringConstList, sizeof(char)*1024*(nC+2)));
                             
                         }
                         memcpy(p_stringConstList+nLastConstIdx, ch_read, nCnt);
@@ -158,7 +158,7 @@ bool CToolInvoker::MakeStringIdList()
                         int nL = nLastDataIdx % 1024;
                         int nC = nLastDataIdx / 1024;
                         if(nL + nCnt+2 >= 1024){
-                            p_stringDataList = reinterpret_cast<char*>(realloc(p_stringDataList, sizeof(char)*1024*(nC+1)));
+                            p_stringDataList = reinterpret_cast<char*>(realloc(p_stringDataList, sizeof(char)*1024*(nC+2)));
                             
                         }
                         memcpy(p_stringDataList+nLastDataIdx, ch_read+nLastCnt, nCnt-nLastCnt);
