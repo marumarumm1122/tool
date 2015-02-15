@@ -8,7 +8,7 @@ private:
 	char **ch_argv;
 	short m_shErrorCode;
 public:
-	enum eFORMAT{
+	enum E_FORMAT{
 		eFORMAT_START = 0,
 
 	    eFORMAT_TEXT = eFORMAT_START,
@@ -17,7 +17,7 @@ public:
 	    eFORMAT_NUM,
 	    eFORMAT_MAX = eFORMAT_NUM - 1,
 	};
-	enum eBYTE_ORDER{
+	enum E_BYTE_ORDER{
 		eBYTE_ORDER_START = 0,
 
 	    eBYTE_ORDER_BIGENDIAN = eBYTE_ORDER_START,
@@ -27,7 +27,7 @@ public:
 	    eBYTE_ORDER_MAX = eBYTE_ORDER_NUM - 1,
 	};
 	
-	enum eARGUMENT{
+	enum E_ARGUMENT{
 		eARGUMENT_START = 0,
 
 		eARGUMENT_INPUT_FILE_COMMAND = eARGUMENT_START,
@@ -56,7 +56,7 @@ public:
 private:
 	// 引数チェック用
 	const char *m_chCheckArgs[eARGUMENT_NUM];
-	eBYTE_ORDER m_byteOrder;
+	E_BYTE_ORDER m_byteOrder;
 	CArgumentParser():n_argc(0),m_shErrorCode(0){}
 public:
 	CArgumentParser(int argc, char **argv):
@@ -75,7 +75,7 @@ public:
 		return (char**)m_chCheckArgs;
 	}
 	bool Parse();
-	eBYTE_ORDER GetByteOrder(){
+	E_BYTE_ORDER GetByteOrder(){
 		return m_byteOrder;
 	}
 	short GetErrorCode()

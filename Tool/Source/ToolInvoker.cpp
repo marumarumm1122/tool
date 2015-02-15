@@ -23,9 +23,6 @@ namespace{
     char *p_stringConstList;
     char *p_stringDataList;
 }
-const char *CToolInvoker::CH_EXPORT_HEADER_FILE_NAME = "S_LINK_DATA_STRING_HEADER.h";
-const char *CToolInvoker::WORK_FILE_EXT_CONST_NAME = ".constn";
-const char *CToolInvoker::WORK_FILE_EXT_CONST_VALUE = ".constv";
 
 int CToolInvoker::Invoke()
 {
@@ -321,40 +318,6 @@ bool CToolInvoker::WriteHeaderFile()
     fclose(fp);
     return true;
 }
-bool CToolInvoker::WriteWorkFile()
-{
-    // 入力ファイルを読み込む
-    if(!InputFileRead()){
-        return false;
-    }
-    
-    // ワークファイルに書き込む
-    if(!WriteTemporaryFile()){
-        return false;
-    }
-    return true;
-}
-bool CToolInvoker::WorkFileRead()
-{
-	char **ch_args = m_parser->GetParseArgs();
-	FILE *fp;
-    fpos_t n_fsize;
-    char *workn = reinterpret_cast<char*>(malloc(sizeof(char)*100));
-    strcpy(workn,ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA]);
-    strcat(workn,WORK_FILE_EXT_CONST_NAME);
-	FILEOPENANDERROR(fp, workn, "rb");
-    free(workn);
-    
-    fpos_t fsizeb = fseek(fp,0,SEEK_END);
-    fgetpos(fp, &n_fsize);
-    fseek(fp,fsizeb,SEEK_SET);
-    p_nbuffer = malloc(n_fsize);
-    fread(p_nbuffer,n_fsize,1,fp);
-    
-    fclose(fp);
-    
-    return true;
-}
 
 bool CToolInvoker::InputFileRead()
 {
@@ -370,60 +333,6 @@ bool CToolInvoker::InputFileRead()
     fread(p_vibuffer,n_fsize,1,fp);
     
     fclose(fp);
-    
-    return true;
-}
-bool CToolInvoker::WriteTemporaryFile()
-{
-    char **ch_args = m_parser->GetParseArgs();
-    char *workn = reinterpret_cast<char*>(malloc(sizeof(char)*100));
-    strcpy(workn,ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA]);
-    strcat(workn,WORK_FILE_EXT_CONST_NAME);
-    char *workv = reinterpret_cast<char*>(malloc(sizeof(char)*100));
-    strcpy(workv,ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA]);
-    strcat(workv,WORK_FILE_EXT_CONST_VALUE);
-    
-    FILE *fpc;
-	FILEOPENANDERROR(fpc, workn, "wb");
-
-    FILE *fpv;
-	fpv = fopen(workv, "wb");
-    if(fpv==NULL){
-        printf("File open error[%s]\n",workv);
-        m_shErrorCode = ERR_INV_WORK_FILE_NOT_OPEN;
-        fclose(fpc);
-        return false;
-    }
-
-    free(workn);
-    free(workv);
-    
-    char *ch_pBuffer = reinterpret_cast<char*>(p_vibuffer);
-    bool b_constFlag = true;
-    do{
-        if(ch_pBuffer[0]==','){
-            b_constFlag = false;
-            ch_pBuffer[0] = '\n';
-            fwrite(ch_pBuffer,sizeof(char),1,fpc);
-            continue;
-        }
-        if(b_constFlag){
-            // write work1.
-            fwrite(ch_pBuffer,sizeof(char),1,fpc);
-            
-        }else{
-            // write work2.
-            fwrite(ch_pBuffer,sizeof(char),1,fpv);
-            
-        }
-        if(ch_pBuffer[0]=='\n'){
-            b_constFlag = true;
-        }
-        
-    }while(*ch_pBuffer++);
-    
-    fclose(fpc);
-    fclose(fpv);
     
     return true;
 }
@@ -447,29 +356,6 @@ bool CToolInvoker::VersionCheck()
     return false;
 }
 
-bool CToolInvoker::Read()
-{
-	char **ch_args = m_parser->GetParseArgs();
-	FILE *fp;
-    fpos_t n_fsize;
-    char *workv = reinterpret_cast<char*>(malloc(sizeof(char)*100));
-    strcpy(workv,ch_args[CArgumentParser::eARGUMENT_OUTPUT_FILE_DATA]);
-    strcat(workv,WORK_FILE_EXT_CONST_VALUE);
-	FILEOPENANDERROR(fp, workv, "rb");
-    free(workv);
-    
-    fpos_t fsizeb = fseek(fp,0,SEEK_END);
-    fgetpos(fp, &n_fsize);
-    fseek(fp,fsizeb,SEEK_SET);
-    p_vbuffer = malloc(n_fsize);
-    fread(p_vbuffer,n_fsize,1,fp);
-    
-    fclose(fp);
-    p_convertBuffer = malloc(n_fsize+1);
-    m_nCount = (int)n_fsize;
-    
-    return true;
-}
 bool CToolInvoker::Convert()
 {
 	// 行数カウント.
@@ -601,7 +487,7 @@ bool CToolInvoker::MakeSchema()
     
     char **ch_args = m_parser->GetParseArgs();
 	FILEOPENANDERROR(fp, ch_args[CArgumentParser::eARGUMENT_FILE_SCHEMA_DATA], "rb");
-    eCOLUMN_TYPE n_size = eCOLUMN_TYPE_NONE;
+    E_COLUMN_TYPE n_size = eCOLUMN_TYPE_NONE;
     while ( fgets(ch_read, 64, fp) != NULL ) {
         if(strncmp(ch_read,"USHORT",6)==0){
             n_size = eCOLUMN_TYPE_USHORT;
@@ -647,7 +533,7 @@ void CToolInvoker::SplitCanma(char *ch_in,int startByte)
             nSCnt++;
         }
         
-        eCOLUMN_TYPE nSize = m_nBytesOfColumns[nColumnIdx];
+        E_COLUMN_TYPE nSize = m_nBytesOfColumns[nColumnIdx];
         switch((int)nSize){
             case eCOLUMN_TYPE_USHORT:
             {
