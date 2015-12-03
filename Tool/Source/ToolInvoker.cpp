@@ -501,6 +501,12 @@ bool CToolInvoker::MakeSchema()
         }else if(strncmp(ch_read,"UINT",4)==0){
             n_size = eCOLUMN_TYPE_UINT;
             m_nRecordSize+=4;
+        }else if(strncmp(ch_read,"FLOAT",5)==0){
+            n_size = eCOLUMN_TYPE_FLOAT;
+            m_nRecordSize+=4;
+        }else if(strncmp(ch_read,"BOOL",4)==0){
+            n_size = eCOLUMN_TYPE_BOOL;
+            m_nRecordSize+=1;
         }else{
             break;
         }
@@ -567,6 +573,23 @@ void CToolInvoker::SplitCanma(char *ch_in,int startByte)
                 }
                 memcpy(ch_buff+nAppend,&un,4);
                 nAppend+=4;
+                break;
+            }
+            case eCOLUMN_TYPE_FLOAT:
+            {
+                float un = (float)atoi(ch_temp);
+                if(m_parser->GetByteOrder()==CArgumentParser::eBYTE_ORDER_BIGENDIAN){
+                    un = htonl(un);
+                }
+                memcpy(ch_buff+nAppend,&un,4);
+                nAppend+=4;
+                break;
+            }
+            case eCOLUMN_TYPE_BOOL:
+            {
+                char ch = (char)atoi(ch_temp);
+                memcpy(ch_buff+nAppend,&ch,1);
+                nAppend+=1;
                 break;
             }
             case eCOLUMN_TYPE_NONE:

@@ -15,6 +15,8 @@ private:
         eCOLUMN_TYPE_USHORT,
         eCOLUMN_TYPE_BYTE,
         eCOLUMN_TYPE_UINT,
+        eCOLUMN_TYPE_FLOAT,
+        eCOLUMN_TYPE_BOOL,
         
 		eCOLUMN_TYPE_NUM,
 		eCOLUMN_TYPE_MAX = eCOLUMN_TYPE_NUM - 1,
